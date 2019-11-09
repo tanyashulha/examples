@@ -41,5 +41,30 @@ CanvasPanel.prototype.handlePaint = function handlePaint(e) {
   }
 };
 
+function PalettePanel(DOM) {
+  this.DOM = DOM;
+  this.indicators = this.DOM.parentElement;
+  this.onInit.apply(this);
+}
+
+PalettePanel.prototype.onInit = function onInit() {
+  this.handleColorPick = this.handleColorPick.bind(this);
+  this.DOM.addEventListener('click', this.handleColorPick);
+};
+
+PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
+  const currentColor = document.getElementsByClassName('current-color')[0];
+  const prevColor = document.getElementsByClassName('prev-color')[0];
+  if (state.activeControl === 'choose-color' && e.target.dataset.color) {
+    this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
+    state.activeColor = e.target.dataset.color;
+    this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
+  }
+  if (e.target.classList.contains('change-colors')) {
+    this.indicators.replaceChild(currentColor, prevColor);
+  }
+};
+
 const canvasPanel = new CanvasPanel(document.getElementsByClassName('canvas')[0]);
 const controlPanel = new ControlPanel(document.getElementsByClassName('tools')[0]);
+const palettePanel = new PalettePanel(document.getElementsByClassName('colors')[0]);

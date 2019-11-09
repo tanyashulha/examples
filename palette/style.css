@@ -166,8 +166,19 @@ body {
     flex-wrap: wrap;
 }
 
+.change-colors {
+    margin-right: 20px;
+    width: 5%;
+}
+
+.change-colors .change-content {
+    color: var(--main-txt-color);
+    font-size: 18px;
+    cursor: pointer;
+}
+
 .page-layout .tools-layout .colors .choosen-colors {
-    width: 45%;
+    width: 40%;
     display: flex;
     align-items: center;
 }
@@ -179,21 +190,21 @@ body {
     letter-spacing: 0.05em;
 }
 
-.page-layout .tools-layout .colors .pallete-colors {
+.page-layout .tools-layout .colors .palette-colors {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
     margin-top: 30px;
 }
 
-.page-layout .tools-layout .colors .pallete-colors .color {
+.page-layout .tools-layout .colors .palette-colors .color {
     margin: 1%;
     width: 5%;
     transition: 0.15s ease-in;
     cursor: pointer;
 }
 
-.page-layout .tools-layout .colors .pallete-colors .color:hover {
+.page-layout .tools-layout .colors .palette-colors .color:hover {
     transform: scale(1.2);
 }
 
@@ -248,11 +259,11 @@ body {
 
 /*Colors*/ 
 
-.red {
+.current-color {
     background-color: #fc0000;
 }
 
-.yellow {
+.prev-color {
     background-color: #ffff00;
 }
 
