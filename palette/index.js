@@ -1,6 +1,7 @@
 const state = {
   activeColor: '#fc0000',
   activeControl: null,
+  isDrawing: false
 };
 
 function ControlPanel(DOM) {
@@ -10,8 +11,14 @@ function ControlPanel(DOM) {
 
 ControlPanel.prototype.onInit = function onInit() {
   this.handleControlChange = this.handleControlChange.bind(this);
+  this.keyboardControlChange = this.keyboardControlChange.bind(this);
   this.DOM.addEventListener('click', this.handleControlChange);
+  document.addEventListener('keydown', this.keyboardControlChange);
 };
+
+ControlPanel.prototype.getTool = function getTool(id) {
+  return document.getElementById(id);
+}
 
 ControlPanel.prototype.handleControlChange = function handleControlChange(e) {
   state.activeControl = e.target.getAttribute('id');
@@ -22,6 +29,30 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(e) {
   e.target.classList.add('active');
 };
 
+ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(e) {
+  if (e.keyCode === 67) {
+    state.activeControl = this.getTool('choose-color').getAttribute('id');
+    [...this.DOM.children].forEach((el) => {
+      el.classList.remove('active');
+    });
+    this.getTool('choose-color').classList.add('active');
+  }
+  if (e.keyCode === 80) {
+    state.activeControl = this.getTool('pencil').getAttribute('id');
+    [...this.DOM.children].forEach((el) => {
+      el.classList.remove('active');
+    });
+    this.getTool('pencil').classList.add('active');
+  }
+  if (e.keyCode === 66) {
+    state.activeControl = this.getTool('paint-bucket').getAttribute('id');
+    [...this.DOM.children].forEach((el) => {
+      el.classList.remove('active');
+    });
+    this.getTool('paint-bucket').classList.add('active');
+  }
+};
+
 function CanvasPanel(DOM) {
   this.DOM = DOM;
   this.onInit.apply(this);
@@ -29,14 +60,53 @@ function CanvasPanel(DOM) {
 
 CanvasPanel.prototype.onInit = function onInit() {
   this.handlePaint = this.handlePaint.bind(this);
+  this.startDraw = this.startDraw.bind(this);
+  this.draw = this.draw.bind(this);
+  this.endDraw = this.endDraw.bind(this);
   this.DOM.addEventListener('click', this.handlePaint);
+  this.DOM.addEventListener('mousedown', this.startDraw);
+  this.DOM.addEventListener('mousemove', this.draw);
+  this.DOM.addEventListener('mouseup', this.endDraw);
 };
 
-CanvasPanel.prototype.handlePaint = function handlePaint(e) {
+// CanvasPanel.prototype.handlePaint = function handlePaint(e) {
+//   if (e.target.classList.contains('canvas')) {
+//     if (state.activeControl === 'paint-bucket') {
+//       e.target.classList.remove('canvas-background');
+//       e.target.style.backgroundColor = state.activeColor;
+//     }
+//   }
+// };
+
+// CanvasPanel.prototype.startDraw = function startDraw(e) {
+//   if (e.target.classList.contains('canvas')) {
+//     if (state.activeControl === 'pencil') {
+//       state.isDrawing = true;
+//       const context = e.target.getContext('2d');
+//       context.lineWidth = 2;
+//       context.lineJoin = 'round';
+//       context.lineCap = 'round';
+//       context.moveTo(e.target.clientX, e.target.clientY);
+//     }
+//   }
+// };
+
+// CanvasPanel.prototype.draw = function draw(e) {
+//   if (e.target.classList.contains('canvas')) {
+//     if (state.activeControl === 'pencil') {
+//       if (state.isDrawing) {
+//         const context = e.target.getContext('2d');
+//         context.lineTo(e.target.clientX, e.target.clientY);
+//         context.stroke();
+//       }
+//     }
+//   }
+// };
+
+CanvasPanel.prototype.endDraw = function endDraw(e) {
   if (e.target.classList.contains('canvas')) {
-    if (state.activeControl === 'paint-bucket') {
-      e.target.classList.remove('canvas-background');
-      e.target.style.backgroundColor = state.activeColor;
+    if (state.activeControl === 'pencil') {
+      state.isDrawing = false;
     }
   }
 };
@@ -53,15 +123,17 @@ PalettePanel.prototype.onInit = function onInit() {
 };
 
 PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
-  const currentColor = document.getElementsByClassName('current-color')[0];
-  const prevColor = document.getElementsByClassName('prev-color')[0];
-  if (state.activeControl === 'choose-color' && e.target.dataset.color) {
-    this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
-    state.activeColor = e.target.dataset.color;
-    this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
-  }
-  if (e.target.classList.contains('change-colors')) {
-    this.indicators.replaceChild(currentColor, prevColor);
+  if (state.activeControl === 'choose-color') {
+    if (e.target.dataset.color) {
+      this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
+      state.activeColor = e.target.dataset.color;
+      this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
+    }
+    if (e.target.classList.contains('change-colors')) {
+      let prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
+      this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
+      this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = prevColor;
+    }
   }
 };
 

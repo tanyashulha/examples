@@ -167,14 +167,12 @@ body {
 }
 
 .change-colors {
-    margin-right: 20px;
-    width: 5%;
-}
-
-.change-colors .change-content {
+    margin-right: 10px;
     color: var(--main-txt-color);
     font-size: 18px;
     cursor: pointer;
+    background: transparent;
+    border: none;
 }
 
 .page-layout .tools-layout .colors .choosen-colors {
