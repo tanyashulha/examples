@@ -55,6 +55,8 @@ ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(e)
 
 function CanvasPanel(DOM) {
   this.DOM = DOM;
+  this.offsetX = this.DOM.getBoundingClientRect().x;
+  this.offsetY = this.DOM.getBoundingClientRect().y;
   this.onInit.apply(this);
 }
 
@@ -78,36 +80,35 @@ CanvasPanel.prototype.handlePaint = function handlePaint(e) {
   }
 };
 
+CanvasPanel.prototype.getTool = function getTool(id) {
+  return document.getElementById(id);
+};
+
 CanvasPanel.prototype.startDraw = function startDraw(e) {
-  if (e.target.classList.contains('canvas')) {
-    if (state.activeControl === 'pencil') {
-      state.isDrawing = true;
-      const context = e.target.getContext('2d');
-      context.lineWidth = 2;
-      context.lineJoin = 'round';
-      context.lineCap = 'round';
-      context.moveTo(e.target.clientX, e.target.clientY);
-    }
+  if (state.activeControl === 'pencil') {
+    state.isDrawing = true;
+    const canvas = this.getTool('drawing-canvas');
+    const context = canvas.getContext('2d');
+    context.moveTo(e.clientX, e.clientY);
   }
 };
 
 CanvasPanel.prototype.draw = function draw(e) {
-  if (e.target.classList.contains('canvas')) {
-    if (state.activeControl === 'pencil') {
-      if (state.isDrawing) {
-        const context = e.target.getContext('2d');
-        context.lineTo(e.target.clientX, e.target.clientY);
-        context.stroke();
-      }
+  if (state.activeControl === 'pencil') {
+    if (state.isDrawing) {
+      const canvas = this.getTool('drawing-canvas');
+      const context = canvas.getContext('2d');
+      context.fillStyle = state.activeColor;
+      const x = e.clientX - this.offsetX;
+      const y =  e.clientY - this.offsetY;
+      context.fillRect(x, y, 5, 5);
     }
   }
 };
 
 CanvasPanel.prototype.endDraw = function endDraw(e) {
-  if (e.target.classList.contains('canvas')) {
-    if (state.activeControl === 'pencil') {
-      state.isDrawing = false;
-    }
+  if (state.activeControl === 'pencil') {
+    state.isDrawing = false;
   }
 };
 
