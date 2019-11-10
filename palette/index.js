@@ -18,7 +18,7 @@ ControlPanel.prototype.onInit = function onInit() {
 
 ControlPanel.prototype.getTool = function getTool(id) {
   return document.getElementById(id);
-}
+};
 
 ControlPanel.prototype.handleControlChange = function handleControlChange(e) {
   state.activeControl = e.target.getAttribute('id');
@@ -69,39 +69,39 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.DOM.addEventListener('mouseup', this.endDraw);
 };
 
-// CanvasPanel.prototype.handlePaint = function handlePaint(e) {
-//   if (e.target.classList.contains('canvas')) {
-//     if (state.activeControl === 'paint-bucket') {
-//       e.target.classList.remove('canvas-background');
-//       e.target.style.backgroundColor = state.activeColor;
-//     }
-//   }
-// };
+CanvasPanel.prototype.handlePaint = function handlePaint(e) {
+  if (e.target.classList.contains('canvas')) {
+    if (state.activeControl === 'paint-bucket') {
+      e.target.classList.remove('canvas-background');
+      e.target.style.backgroundColor = state.activeColor;
+    }
+  }
+};
 
-// CanvasPanel.prototype.startDraw = function startDraw(e) {
-//   if (e.target.classList.contains('canvas')) {
-//     if (state.activeControl === 'pencil') {
-//       state.isDrawing = true;
-//       const context = e.target.getContext('2d');
-//       context.lineWidth = 2;
-//       context.lineJoin = 'round';
-//       context.lineCap = 'round';
-//       context.moveTo(e.target.clientX, e.target.clientY);
-//     }
-//   }
-// };
+CanvasPanel.prototype.startDraw = function startDraw(e) {
+  if (e.target.classList.contains('canvas')) {
+    if (state.activeControl === 'pencil') {
+      state.isDrawing = true;
+      const context = e.target.getContext('2d');
+      context.lineWidth = 2;
+      context.lineJoin = 'round';
+      context.lineCap = 'round';
+      context.moveTo(e.target.clientX, e.target.clientY);
+    }
+  }
+};
 
-// CanvasPanel.prototype.draw = function draw(e) {
-//   if (e.target.classList.contains('canvas')) {
-//     if (state.activeControl === 'pencil') {
-//       if (state.isDrawing) {
-//         const context = e.target.getContext('2d');
-//         context.lineTo(e.target.clientX, e.target.clientY);
-//         context.stroke();
-//       }
-//     }
-//   }
-// };
+CanvasPanel.prototype.draw = function draw(e) {
+  if (e.target.classList.contains('canvas')) {
+    if (state.activeControl === 'pencil') {
+      if (state.isDrawing) {
+        const context = e.target.getContext('2d');
+        context.lineTo(e.target.clientX, e.target.clientY);
+        context.stroke();
+      }
+    }
+  }
+};
 
 CanvasPanel.prototype.endDraw = function endDraw(e) {
   if (e.target.classList.contains('canvas')) {
@@ -132,6 +132,7 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
     if (e.target.classList.contains('change-colors')) {
       let prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
+      state.activeColor = prevColor;
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = prevColor;
     }
   }
