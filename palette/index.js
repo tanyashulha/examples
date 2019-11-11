@@ -1,6 +1,7 @@
 const state = {
   activeColor: localStorage.getItem('activeColor') || '#fc0000',
   activeControl: localStorage.getItem('activeControl') || null,
+  canvasData: localStorage.getItem('canvasData') || null,
   isDrawing: false
 };
 
@@ -63,6 +64,8 @@ function CanvasPanel(DOM) {
   this.DOM = DOM;
   this.offsetX = this.DOM.getBoundingClientRect().x;
   this.offsetY = this.DOM.getBoundingClientRect().y;
+  this.oldX = null;
+  this.oldY = null;
   this.onInit.apply(this);
 }
 
@@ -71,31 +74,28 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.startDraw = this.startDraw.bind(this);
   this.draw = this.draw.bind(this);
   this.endDraw = this.endDraw.bind(this);
+  this.getLineCoord = this.getLineCoord.bind(this);
   this.DOM.addEventListener('click', this.handlePaint);
   this.DOM.addEventListener('mousedown', this.startDraw);
   this.DOM.addEventListener('mousemove', this.draw);
   this.DOM.addEventListener('mouseup', this.endDraw);
-};
 
-CanvasPanel.prototype.handlePaint = function handlePaint(e) {
-  if (e.target.classList.contains('canvas')) {
-    if (state.activeControl === 'paint-bucket') {
-      e.target.classList.remove('canvas-background');
-      e.target.style.backgroundColor = state.activeColor;
-    }
+  if (state.canvasData) {
+    const img = new Image();
+    img.src = state.canvasData;
+    img.onload = () => {
+      this.DOM.getContext('2d').drawImage(img, 0, 0);
+    };
   }
 };
 
-// For tests
-// function getCanvas() {
-//   const canvas = document.getElementById('drawing-canvas');
-//   512 = 512;
-//   canvas.height = 512;
-// }
-
-// getCanvas();
-
-// export default { getCanvas };
+CanvasPanel.prototype.handlePaint = function handlePaint() {
+  if (state.activeControl === 'paint-bucket') {
+    this.DOM.getContext('2d').fillStyle = state.activeColor;
+    this.DOM.getContext('2d').fillRect(0, 0, 512, 512);
+    localStorage.setItem('canvasData', this.DOM.toDataURL());
+  }
+};
 
 CanvasPanel.prototype.startDraw = function startDraw(e) {
   if (state.activeControl === 'pencil') {
@@ -106,6 +106,36 @@ CanvasPanel.prototype.startDraw = function startDraw(e) {
   }
 };
 
+CanvasPanel.prototype.getLineCoord = function getLineCoord(p0, p1) {
+  let { x, y } = p0;
+  const dx = Math.abs(x - p1.x);
+  const dy = Math.abs(y - p1.y);
+
+  const sx = (x < p1.x) ? 16 : -16;
+  const sy = (y < p1.y) ? 16 : -16;
+  let error = dx - dy;
+  const coord = [];
+
+  while (true) {
+    coord.push({ x, y });
+    if ((x < p1.x + 16 && x > p1.x - 16) && (y < p1.y + 16 && y > p1.y - 16)) {
+      break;
+    }
+
+    const e2 = error * 2;
+    if (e2 > -dy) {
+      error -= dy;
+      x += sx;
+    }
+    if (e2 < dx) {
+      error += dx;
+      y += sy;
+    }
+  }
+
+  return coord;
+};
+
 CanvasPanel.prototype.draw = function draw(e) {
   if (state.activeControl === 'pencil') {
     if (state.isDrawing) {
@@ -114,7 +144,16 @@ CanvasPanel.prototype.draw = function draw(e) {
       context.fillStyle = state.activeColor;
       const x = e.clientX - this.offsetX;
       const y = e.clientY - this.offsetY;
-      context.fillRect(x, y, 5, 5);
+      // Pencil - normal scope
+      // context.fillRect(x, y, 5, 5);
+      if (this.oldX !== null) {
+        this.getLineCoord({ x, y }, { x: this.oldX, y: this.oldY }).forEach(({ x, y }) => {
+          context.beginPath();
+          context.fillRect(x, y, 16, 16);
+        });
+      }
+      this.oldX = x;
+      this.oldY = y;
     }
   }
 };
@@ -122,6 +161,9 @@ CanvasPanel.prototype.draw = function draw(e) {
 CanvasPanel.prototype.endDraw = function endDraw() {
   if (state.activeControl === 'pencil') {
     state.isDrawing = false;
+    this.oldX = null;
+    this.oldY = null;
+    localStorage.setItem('canvasData', this.DOM.toDataURL());
   }
 };
 
