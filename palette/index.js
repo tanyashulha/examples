@@ -1,6 +1,6 @@
 const state = {
-  activeColor: '#fc0000',
-  activeControl: null,
+  activeColor: localStorage.getItem('activeColor') || '#fc0000',
+  activeControl: localStorage.getItem('activeControl') || null,
   isDrawing: false
 };
 
@@ -14,6 +14,10 @@ ControlPanel.prototype.onInit = function onInit() {
   this.keyboardControlChange = this.keyboardControlChange.bind(this);
   this.DOM.addEventListener('click', this.handleControlChange);
   document.addEventListener('keydown', this.keyboardControlChange);
+
+  if (state.activeControl) {
+    document.getElementById(state.activeControl).classList.add('active');
+  }
 };
 
 ControlPanel.prototype.getTool = function getTool(id) {
@@ -26,7 +30,9 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(e) {
   [].forEach.call(e.currentTarget.children, (v) => {
     v.classList.remove('active');
   });
+
   e.target.classList.add('active');
+  localStorage.setItem('activeControl', state.activeControl);
 };
 
 ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(e) {
@@ -80,21 +86,16 @@ CanvasPanel.prototype.handlePaint = function handlePaint(e) {
   }
 };
 
-// CanvasPanel.prototype.getCanvasId = function getCanvasId(id) {
-//   return document.getElementById(id);
-// };
-
-
 // For tests
-function getCanvas() {
-  const canvas = document.getElementById('drawing-canvas');
-  canvas.width = 512;
-  canvas.height = 512;
-}
+// function getCanvas() {
+//   const canvas = document.getElementById('drawing-canvas');
+//   512 = 512;
+//   canvas.height = 512;
+// }
 
-getCanvas();
+// getCanvas();
 
-export default { getCanvas };
+// export default { getCanvas };
 
 CanvasPanel.prototype.startDraw = function startDraw(e) {
   if (state.activeControl === 'pencil') {
@@ -118,7 +119,7 @@ CanvasPanel.prototype.draw = function draw(e) {
   }
 };
 
-CanvasPanel.prototype.endDraw = function endDraw(e) {
+CanvasPanel.prototype.endDraw = function endDraw() {
   if (state.activeControl === 'pencil') {
     state.isDrawing = false;
   }
@@ -133,6 +134,10 @@ function PalettePanel(DOM) {
 PalettePanel.prototype.onInit = function onInit() {
   this.handleColorPick = this.handleColorPick.bind(this);
   this.DOM.addEventListener('click', this.handleColorPick);
+
+  if (state.activeColor) {
+    this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
+  }
 };
 
 PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
@@ -141,12 +146,14 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
       state.activeColor = e.target.dataset.color;
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
+      localStorage.setItem('activeColor', state.activeColor);
     }
     if (e.target.classList.contains('change-colors')) {
       const prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
       state.activeColor = prevColor;
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = prevColor;
+      localStorage.setItem('activeColor', state.activeColor);
     }
   }
 };
