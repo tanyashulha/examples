@@ -80,14 +80,26 @@ CanvasPanel.prototype.handlePaint = function handlePaint(e) {
   }
 };
 
-CanvasPanel.prototype.getTool = function getTool(id) {
-  return document.getElementById(id);
-};
+// CanvasPanel.prototype.getCanvasId = function getCanvasId(id) {
+//   return document.getElementById(id);
+// };
+
+
+// For tests
+function getCanvas() {
+  const canvas = document.getElementById('drawing-canvas');
+  canvas.width = 512;
+  canvas.height = 512;
+}
+
+getCanvas();
+
+export default { getCanvas };
 
 CanvasPanel.prototype.startDraw = function startDraw(e) {
   if (state.activeControl === 'pencil') {
     state.isDrawing = true;
-    const canvas = this.getTool('drawing-canvas');
+    const canvas = document.getElementById('drawing-canvas');
     const context = canvas.getContext('2d');
     context.moveTo(e.clientX, e.clientY);
   }
@@ -96,11 +108,11 @@ CanvasPanel.prototype.startDraw = function startDraw(e) {
 CanvasPanel.prototype.draw = function draw(e) {
   if (state.activeControl === 'pencil') {
     if (state.isDrawing) {
-      const canvas = this.getTool('drawing-canvas');
+      const canvas = document.getElementById('drawing-canvas');
       const context = canvas.getContext('2d');
       context.fillStyle = state.activeColor;
       const x = e.clientX - this.offsetX;
-      const y =  e.clientY - this.offsetY;
+      const y = e.clientY - this.offsetY;
       context.fillRect(x, y, 5, 5);
     }
   }
@@ -131,7 +143,7 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
     }
     if (e.target.classList.contains('change-colors')) {
-      let prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
+      const prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
       state.activeColor = prevColor;
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = prevColor;
