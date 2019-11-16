@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Codejam-Pallete</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="page-header">
+        <div class="icon-hamburger"></div>
+        <div class="logo">
+            <p class="logo-txt">Codejam-Pallete</p>
+        </div>
+        <div class="icon-points"></div>
+    </header>
+    <main class="page-layout container">
+       <div class="tools-layout">
+           <div class="tools">
+               <p class="tool-title" id="paint-bucket"><span>🖌</span>Paint bucket</p>
+               <p class="tool-title" id="choose-color"><span>&#x261b;</span>Choose color</p>
+               <p class="tool-title" id="pencil"><span>&#9998;</span>Pencil</p>
+           </div>
+           <div class="colors">
+               <div class="choosen-colors">
+                   <div class="color current-color"></div>
+                   <p class="color-title">Current color</p>
+               </div>
+               <button class="change-colors">&#8660;</button>
+               <div class="choosen-colors">
+                    <div class="color prev-color"></div>
+                    <p class="color-title">Prev color</p>
+                </div>
+               <div class="palette-colors">
+                   <div class="color apricot" data-color="#FBCEB1"></div>
+                   <div class="color amaranth" data-color="#E52B50"></div>
+                   <div class="color amethyst" data-color="#9966CC"></div>
+                   <div class="color asparagus" data-color="#7BA05B"></div>
+                   <div class="color green" data-color="#8DB600"></div>
+                   <div class="color azure" data-color="#007FFF"></div>
+                   <div class="color bittersweet" data-color="#FE6F5E"></div>
+                   <div class="color blond" data-color="#FAF0BE"></div>
+                   <div class="color turquoise" data-color="#08E8DE"></div>
+                   <div class="color violet" data-color="#CD00CD"></div>
+                   <div class="color burgundy" data-color="#900020"></div>
+                   <div class="color brass" data-color="#B5A642"></div>
+                   <div class="color canary" data-color="#fdff63"></div>
+                   <div class="color cardinal" data-color="#C41E3A"></div>
+                   <div class="color carmine" data-color="#960018"></div>
+                   <div class="color celadon" data-color="#ACE1AF"></div>
+                   <div class="color carrot" data-color="#ED9121"></div>
+                   <div class="color chartreuse" data-color="#7FFF00"></div>
+                   <div class="color chestnut" data-color="#CD5C5C"></div>
+                   <div class="color chocolate" data-color="#D2691E"></div>
+                   <div class="color coffee" data-color="#4b3621"></div>
+                   <div class="color coral" data-color="#FF7F50"></div>
+                   <div class="color crimson" data-color="#DC143C"></div>
+                   <div class="color cyan" data-color="#00FFFF"></div>
+                   <div class="color dark-pink" data-color="#E75480"></div>
+                   <div class="color dark-violet" data-color="#423189"></div>
+                   <div class="color deep-sky-blue" data-color="#00BFFF"></div>
+                   <div class="color dodger-blue" data-color="#1E90FF"></div>
+                   <div class="color emerald" data-color="#50C878"></div>
+                   <div class="color eggplant" data-color="#990066"></div>
+                   <div class="color electric" data-color="#7DF9FF"></div>
+                   <div class="color flax" data-color="#EEDC82"></div>
+                   <div class="color fuchsia" data-color="#FF00FF"></div>
+                   <div class="color goldenrod" data-color="#DAA520"></div>
+                   <div class="color gray-asparagus" data-color="#465945"></div>
+                   <div class="color hot-pink" data-color="#FC0FC0"></div>
+                   <div class="color indigo" data-color="#4B0082"></div>
+                   <div class="color jade" data-color="#00A86B"></div>
+                   <div class="color mint" data-color="#98FF98"></div>
+               </div>
+           </div>
+       </div>
+       <div class="canvas-layout">
+            <canvas class="canvas canvas-background" id="drawing-canvas" width="512" height="512"></canvas>
+       </div>
+    </main>
+    <script src="index.js"></script>
+</body>
+</html>
