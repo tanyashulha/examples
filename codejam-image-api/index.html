@@ -20,7 +20,7 @@
            <div class="tools">
                <p class="tool-title" id="paint-bucket"><span>🖌</span>Paint bucket</p>
                <p class="tool-title" id="choose-color"><span>&#x261b;</span>Choose color</p>
-               <p class="tool-title" id="pencil"><span>&#9998;</span>Pencil</p>
+               <p class="tool-title active" id="pencil"><span>&#9998;</span>Pencil</p>
            </div>
            <div class="colors">
                <div class="choosen-colors">
@@ -76,6 +76,14 @@
            </div>
        </div>
        <div class="canvas-layout">
+            <div class="function-buttons">
+                <button class="button-load">Load</button>
+                <div class="search-block">
+                    <input type="search" name="search" placeholder="Search...."> 
+                    <input type="submit" value="Submit">
+                </div>
+                <button class="bw-button">B&W</button>
+            </div>
             <canvas class="canvas canvas-background" id="drawing-canvas" width="512" height="512"></canvas>
        </div>
     </main>
