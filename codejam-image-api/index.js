@@ -75,10 +75,12 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.draw = this.draw.bind(this);
   this.endDraw = this.endDraw.bind(this);
   this.getLineCoord = this.getLineCoord.bind(this);
+  // this.loadImage = this.loadImage.bind(this);
   this.DOM.addEventListener('click', this.handlePaint);
   this.DOM.addEventListener('mousedown', this.startDraw);
   this.DOM.addEventListener('mousemove', this.draw);
   this.DOM.addEventListener('mouseup', this.endDraw);
+  // this.DOM.addEventListener('load', this.loadImage);
 
   if (state.canvasData) {
     const img = new Image();
@@ -88,6 +90,19 @@ CanvasPanel.prototype.onInit = function onInit() {
     };
   }
 };
+
+// CanvasPanel.prototype.loadImage = function loadImage() {
+//   const url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
+//   const linkImg = new Image();
+//   fetch(url)
+//     .then(res => res.json())
+//     .then(data => { 
+//       linkImg.src = data.url;
+//       linkImg.onload = () => {
+//         this.DOM.getContext('2d').drawImage(linkImg, 0, 0);
+//       }
+//     });
+// }
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
   if (state.activeControl === 'paint-bucket') {
