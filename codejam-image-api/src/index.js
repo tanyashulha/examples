@@ -101,16 +101,25 @@ async function requestUrl() {
   return resultUrl;
 }
 
-CanvasPanel.prototype.loadImage = function loadImage(event) {
-  requestUrl(event).then((data) => {
-    const canvasImage = new Image();
-    data.forEach((item) => {
-      canvasImage.src = item.urls.full;
-      canvasImage.onload = () => {
-        this.DOM.getContext('2d').drawImage(canvasImage, 0, 0, 512, 512);
-      };
+CanvasPanel.prototype.loadImage = function loadImage(url) {
+  if (state.activeControl === 'button-load') {
+    requestUrl(url).then((data) => {
+      const canvasImage = new Image();
+      data.forEach((item) => {
+        canvasImage.src = item.urls.small;
+        const proportion = Math.min(512 / item.width, 512 / item.height);
+        canvasImage.width = item.width * proportion;
+        canvasImage.height = item.height * proportion;
+        canvasImage.positionLeft = (512 - canvasImage.width) / 2;
+        canvasImage.positionTop = (512 - canvasImage.width) / 2;
+        canvasImage.positionTop = canvasImage.height === 512 ? canvasImage.positionTop === 0 : canvasImage.positionTop;
+        canvasImage.positionLeft = canvasImage.width === 512 ? canvasImage.positionLeft === 0 : canvasImage.positionLeft;
+        canvasImage.onload = () => {
+          this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
+        };
+      });
     });
-  });
+  }
 };
 
 
