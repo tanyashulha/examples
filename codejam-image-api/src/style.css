@@ -226,72 +226,22 @@ body {
     background-position: 0 0, 10px 10px;
 }
 
-.canvas-layout .function-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.canvas-layout .function-buttons .button-load,
-.canvas-layout .function-buttons .bw-button {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
-    background-color: var(--main-bg-color);
-    border: none;
-    padding: 10px 30px;
-    color: var(--main-txt-color);
-    font-size: 18px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: 0.2s ease-in;
-    outline: none;
-}
-
-.canvas-layout .function-buttons .button-load:hover,
-.canvas-layout .function-buttons .bw-button:hover,
-.canvas-layout .function-buttons .button-load:focus,
-.canvas-layout .function-buttons .bw-button:focus {
-    background-color: var(--canvas-bg-color);
-}
-
-.canvas-layout .function-buttons .search-block {
-    box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
-    background-color: var(--main-bg-color);
-}
-
-.canvas-layout .function-buttons .search-block input[type=submit] {
-    background-color: transparent;
-    border: none;
-    border-left: 1px solid var(--main-txt-color);
-    padding: 10px;
-    color: var(--main-txt-color);
-    font-size: 16px;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    transition: 0.2s ease-in;
-    outline: none;
-}
-
-.canvas-layout .function-buttons .search-block input[type=submit]:hover,
-.canvas-layout .function-buttons .search-block input[type=submit]:focus {
-    background-color: var(--canvas-bg-color);
-}
-
-.canvas-layout .function-buttons .search-block input[type=search] {
+.search-block {
     box-shadow: 0 2px 4px rgba(0, 0, 0, .2);
     background-color: transparent;
-    border: none;
-    padding: 5px;
+    border: 1px solid var(--main-txt-color);
     color: var(--main-txt-color);
-    font-size: 16px;
+    width: 100%;
     cursor: pointer;
     letter-spacing: 0.05em;
     transition: 0.2s ease-in;
     outline: none;
+    font-family: var(--main-font);
+    margin-top: 30px !important;
 }
 
-.canvas-layout .function-buttons .search-block input[type=search]::placeholder {
-    color: #303030;
+.search-block::placeholder {
+    color: var(--main-txt-color);
 }
 
 .sizes {

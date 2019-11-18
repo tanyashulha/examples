@@ -25,7 +25,8 @@
     "autoprefixer": "^9.7.1",
     "eslint": "^6.6.0",
     "eslint-config-airbnb-base": "^14.0.0",
-    "eslint-plugin-import": "^2.18.2"
+    "eslint-plugin-import": "^2.18.2",
+    "imagemin-webpack-plugin": "^2.4.2"
   },
   "devDependencies": {
     "@babel/core": "^7.7.2",

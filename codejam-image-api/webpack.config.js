@@ -1,11 +1,12 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 module.exports = {
   entry: './src/index.js',
   output: {
-    filename: './main.js'
+    filename: './index.js'
   },
   module: {
     rules: [
@@ -18,6 +19,15 @@ module.exports = {
         exclude: /node_modules/,
         use: {
           loader: 'babel-loader'
+        }
+      },
+      {
+        test: /\.(png|svg|jpg|gif)$/,
+        use: {
+          loader: 'file-loader',
+          options: {
+            name: '[name].[ext]'
+          }
         }
       },
       {
@@ -43,5 +53,6 @@ module.exports = {
       template: 'src/index.html',
     }),
     new MiniCssExtractPlugin(),
+    new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
   ]
 };
