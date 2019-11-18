@@ -1,3 +1,5 @@
+import './style.css';
+
 const state = {
   activeColor: localStorage.getItem('activeColor') || '#fc0000',
   activeControl: localStorage.getItem('activeControl') || null,
