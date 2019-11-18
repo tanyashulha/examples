@@ -4,19 +4,21 @@ const state = {
   activeColor: localStorage.getItem('activeColor') || '#fc0000',
   activeControl: localStorage.getItem('activeControl') || null,
   canvasData: localStorage.getItem('canvasData') || null,
-  isDrawing: false,
-  image: null
+  isDrawing: false
 };
 
-function ControlPanel(DOM) {
+function ControlPanel(DOM, canvas) {
   this.DOM = DOM;
+  this.canvas = canvas;
   this.onInit.apply(this);
 }
 
 ControlPanel.prototype.onInit = function onInit() {
   this.handleControlChange = this.handleControlChange.bind(this);
   this.keyboardControlChange = this.keyboardControlChange.bind(this);
+  // this.handleSearch = this.handleSearch.bind(this);
   this.DOM.addEventListener('click', this.handleControlChange);
+  // this.DOM.addEventListener('keypress', this.handleSearch);
   document.addEventListener('keydown', this.keyboardControlChange);
 
   if (state.activeControl) {
@@ -37,6 +39,11 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
 
   event.target.classList.add('active');
   localStorage.setItem('activeControl', state.activeControl);
+
+  if (state.activeControl === 'button-load') {
+    this.canvas.loadImage();
+  }
+
 };
 
 ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(event) {
@@ -83,7 +90,6 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.DOM.addEventListener('mousedown', this.startDraw);
   this.DOM.addEventListener('mousemove', this.draw);
   this.DOM.addEventListener('mouseup', this.endDraw);
-  this.DOM.addEventListener('load', this.loadImage);
 
   if (state.canvasData) {
     const img = new Image();
@@ -94,34 +100,27 @@ CanvasPanel.prototype.onInit = function onInit() {
   }
 };
 
-async function requestUrl() {
-  const url = 'https://api.unsplash.com/photos/?client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
-  const response = await fetch(url);
-  const resultUrl = await response.json();
-  return resultUrl;
-}
-
-CanvasPanel.prototype.loadImage = function loadImage(url) {
+CanvasPanel.prototype.loadImage = function loadImage() {
   if (state.activeControl === 'button-load') {
-    requestUrl(url).then((data) => {
+    requestUrl().then((data) => {
       const canvasImage = new Image();
-      data.forEach((item) => {
-        canvasImage.src = item.urls.small;
-        const proportion = Math.min(512 / item.width, 512 / item.height);
-        canvasImage.width = item.width * proportion;
-        canvasImage.height = item.height * proportion;
-        canvasImage.positionLeft = (512 - canvasImage.width) / 2;
-        canvasImage.positionTop = (512 - canvasImage.width) / 2;
-        canvasImage.positionTop = canvasImage.height === 512 ? canvasImage.positionTop === 0 : canvasImage.positionTop;
-        canvasImage.positionLeft = canvasImage.width === 512 ? canvasImage.positionLeft === 0 : canvasImage.positionLeft;
-        canvasImage.onload = () => {
-          this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
-        };
-      });
+      canvasImage.crossOrigin = 'anonymous';
+      this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
+      canvasImage.src = data.urls.small;
+      const proportion = Math.min(512 / data.width, 512 / data.height);
+      canvasImage.width = data.width * proportion;
+      canvasImage.height = data.height * proportion;
+      canvasImage.positionLeft = (512 - canvasImage.width) / 2;
+      canvasImage.positionTop = (512 - canvasImage.height) / 2;
+      canvasImage.positionTop = canvasImage.height === 512 ? canvasImage.positionTop === 0 : canvasImage.positionTop;
+      canvasImage.positionLeft = canvasImage.width === 512 ? canvasImage.positionLeft === 0 : canvasImage.positionLeft;
+      canvasImage.onload = () => {
+        this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
+        localStorage.setItem('canvasData', this.DOM.toDataURL());
+      };
     });
   }
 };
-
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
   if (state.activeControl === 'paint-bucket') {
@@ -230,8 +229,13 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(event) {
   }
 };
 
-const canvasPanel = new CanvasPanel(document.getElementsByClassName('canvas')[0]);
-const controlPanel = new ControlPanel(document.getElementsByClassName('tools')[0]);
-const palettePanel = new PalettePanel(document.getElementsByClassName('colors')[0]);
+async function requestUrl() {
+  const url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
+  const response = await fetch(url);
+  const resultUrl = await response.json();
+  return resultUrl;
+}
 
-canvasPanel.loadImage();
+const canvasPanel = new CanvasPanel(document.getElementsByClassName('canvas')[0]);
+const controlPanel = new ControlPanel(document.getElementsByClassName('tools')[0], canvasPanel);
+const palettePanel = new PalettePanel(document.getElementsByClassName('colors')[0]);
