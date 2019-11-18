@@ -10,8 +10,8 @@ const state = {
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
-  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
+  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
@@ -52,15 +52,31 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
 
   if (state.activeControl === 'button-load') {
     requestUrl().then((data) => {
+      this.canvas.currentImageData = data;
       this.canvas.renderImage(data);
     });
   }
 
   if (state.activeControl === 'button-bw') {
     if (state.canvasData === null) {
-      alert('gg');
+      alert('Please, upload image!');
     } else {
       this.canvas.changeStyleImage();
+    }
+  }
+
+
+  if (state.canvasData !== null) {
+    if (state.activeControl === 'tool-min') {
+      this.canvas.renderImage(this.canvas.currentImageData);
+    }
+  
+    if (state.activeControl === 'tool-medium') {
+      this.canvas.renderImage(this.canvas.currentImageData, 2);
+    }
+  
+    if (state.activeControl === 'tool-max') {
+      this.canvas.renderImage(this.canvas.currentImageData, 4);
     }
   }
 };
@@ -129,18 +145,35 @@ CanvasPanel.prototype.onInit = function onInit() {
   }
 };
 
-CanvasPanel.prototype.renderImage = function renderImage(data) {
+CanvasPanel.prototype.calculateProportions = function calculateProportions(data, base = 1) {
+  const size = 512 * base;
+  const proportion = Math.min(size / data.width, size / data.height);
+  const w = data.width * proportion;
+  const h = data.height * proportion;
+
+  return {
+    width: w,
+    height: h,
+    positionTop: h === size ? 0 : (512 - h) / 2,
+    positionLeft: w === size ? 0 : (512 - w) / 2
+  };
+};
+
+CanvasPanel.prototype.renderImage = function renderImage(data, base) {
+  this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
   const canvasImage = new Image();
   canvasImage.crossOrigin = 'anonymous';
-  this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
   canvasImage.src = data.urls.small;
-  const proportion = Math.min(512 / data.width, 512 / data.height);
-  canvasImage.width = data.width * proportion;
-  canvasImage.height = data.height * proportion;
-  canvasImage.positionLeft = (512 - canvasImage.width) / 2;
-  canvasImage.positionTop = (512 - canvasImage.height) / 2;
-  canvasImage.positionTop = canvasImage.height === 512 ? 0 : canvasImage.positionTop;
-  canvasImage.positionLeft = canvasImage.width === 512 ? 0 : canvasImage.positionLeft;
+  const {
+    width,
+    height,
+    positionLeft,
+    positionTop
+  } = this.calculateProportions(data, base);
+  canvasImage.width = width;
+  canvasImage.height = height;
+  canvasImage.positionLeft = positionLeft;
+  canvasImage.positionTop = positionTop;
   canvasImage.onload = () => {
     this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
     state.canvasData = this.DOM.toDataURL();

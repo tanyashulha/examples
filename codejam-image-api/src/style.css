@@ -129,6 +129,11 @@ body {
     background-color: var(--main-bg-color);
 }
 
+.tool-size {
+    display: inline !important;
+    margin: 20px 10px !important;
+}
+
 .page-layout .tools-layout .tools .tool-title {
     padding: 10px;
     margin: 0;
@@ -137,6 +142,7 @@ body {
     cursor: pointer;
     letter-spacing: 0.05em;
     transition: 0.2s ease-in;
+    display: flex;
 }
 
 .page-layout .tools-layout .tools .tool-title.active {
@@ -237,7 +243,7 @@ body {
     transition: 0.2s ease-in;
     outline: none;
     font-family: var(--main-font);
-    margin-top: 30px !important;
+    margin: 30px 0 !important;
     cursor: auto !important;
 }
 
