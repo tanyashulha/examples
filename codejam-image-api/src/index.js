@@ -10,8 +10,8 @@ const state = {
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
-  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
+  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
@@ -52,15 +52,23 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
 
   if (state.activeControl === 'button-load') {
     requestUrl().then((data) => {
-      this.canvas.loadImage(data);
+      this.canvas.renderImage(data);
     });
+  }
+
+  if (state.activeControl === 'button-bw') {
+    if (state.canvasData === null) {
+      alert('gg');
+    } else {
+      this.canvas.changeStyleImage();
+    }
   }
 };
 
 ControlPanel.prototype.handleSearch = function handleSearch(e) {
   if (e.key === 'Enter') {
     requestUrl(e.target.value).then((data) => {
-      this.canvas.loadImage(data);
+      this.canvas.renderImage(data);
       e.target.value = '';
     });
   }
@@ -105,7 +113,8 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.draw = this.draw.bind(this);
   this.endDraw = this.endDraw.bind(this);
   this.getLineCoord = this.getLineCoord.bind(this);
-  this.loadImage = this.loadImage.bind(this);
+  this.renderImage = this.renderImage.bind(this);
+  this.changeStyleImage = this.changeStyleImage.bind(this);
   this.DOM.addEventListener('click', this.handlePaint);
   this.DOM.addEventListener('mousedown', this.startDraw);
   this.DOM.addEventListener('mousemove', this.draw);
@@ -120,7 +129,7 @@ CanvasPanel.prototype.onInit = function onInit() {
   }
 };
 
-CanvasPanel.prototype.loadImage = function loadImage(data) {
+CanvasPanel.prototype.renderImage = function renderImage(data) {
   const canvasImage = new Image();
   canvasImage.crossOrigin = 'anonymous';
   this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
@@ -134,8 +143,25 @@ CanvasPanel.prototype.loadImage = function loadImage(data) {
   canvasImage.positionLeft = canvasImage.width === 512 ? 0 : canvasImage.positionLeft;
   canvasImage.onload = () => {
     this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
+    state.canvasData = this.DOM.toDataURL();
     localStorage.setItem('canvasData', this.DOM.toDataURL());
   };
+};
+
+CanvasPanel.prototype.changeStyleImage = function changeStyleImage() {
+  const imgData = this.DOM.getContext('2d').getImageData(0, 0, 512, 512);
+  const pixels = imgData.data;
+  for (let i = 0; i < pixels.length; i += 4) {
+    const lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
+
+    pixels[i] = lightness;
+    pixels[i + 1] = lightness;
+    pixels[i + 2] = lightness;
+  }
+
+  this.DOM.getContext('2d').putImageData(imgData, 0, 0);
+  state.canvasData = this.DOM.toDataURL();
+  localStorage.setItem('canvasData', this.DOM.toDataURL());
 };
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
