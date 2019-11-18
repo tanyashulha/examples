@@ -2,10 +2,20 @@ import './style.css';
 
 const state = {
   activeColor: localStorage.getItem('activeColor') || '#fc0000',
-  activeControl: localStorage.getItem('activeControl') || null,
+  activeControl: localStorage.getItem('activeControl') || 'pencil',
   canvasData: localStorage.getItem('canvasData') || null,
   isDrawing: false
 };
+
+async function requestUrl(query) {
+  let url;
+  if (!query) {
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
+  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
+  const response = await fetch(url);
+  const resultUrl = await response.json();
+  return resultUrl;
+}
 
 function ControlPanel(DOM, canvas) {
   this.DOM = DOM;
@@ -16,9 +26,9 @@ function ControlPanel(DOM, canvas) {
 ControlPanel.prototype.onInit = function onInit() {
   this.handleControlChange = this.handleControlChange.bind(this);
   this.keyboardControlChange = this.keyboardControlChange.bind(this);
-  // this.handleSearch = this.handleSearch.bind(this);
+  this.handleSearch = this.handleSearch.bind(this);
   this.DOM.addEventListener('click', this.handleControlChange);
-  // this.DOM.addEventListener('keypress', this.handleSearch);
+  this.DOM.addEventListener('keypress', this.handleSearch);
   document.addEventListener('keydown', this.keyboardControlChange);
 
   if (state.activeControl) {
@@ -41,9 +51,19 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
   localStorage.setItem('activeControl', state.activeControl);
 
   if (state.activeControl === 'button-load') {
-    this.canvas.loadImage();
+    requestUrl().then((data) => {
+      this.canvas.loadImage(data);
+    });
   }
+};
 
+ControlPanel.prototype.handleSearch = function handleSearch(e) {
+  if (e.key === 'Enter') {
+    requestUrl(e.target.value).then((data) => {
+      this.canvas.loadImage(data);
+      e.target.value = '';
+    });
+  }
 };
 
 ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(event) {
@@ -100,26 +120,22 @@ CanvasPanel.prototype.onInit = function onInit() {
   }
 };
 
-CanvasPanel.prototype.loadImage = function loadImage() {
-  if (state.activeControl === 'button-load') {
-    requestUrl().then((data) => {
-      const canvasImage = new Image();
-      canvasImage.crossOrigin = 'anonymous';
-      this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
-      canvasImage.src = data.urls.small;
-      const proportion = Math.min(512 / data.width, 512 / data.height);
-      canvasImage.width = data.width * proportion;
-      canvasImage.height = data.height * proportion;
-      canvasImage.positionLeft = (512 - canvasImage.width) / 2;
-      canvasImage.positionTop = (512 - canvasImage.height) / 2;
-      canvasImage.positionTop = canvasImage.height === 512 ? canvasImage.positionTop === 0 : canvasImage.positionTop;
-      canvasImage.positionLeft = canvasImage.width === 512 ? canvasImage.positionLeft === 0 : canvasImage.positionLeft;
-      canvasImage.onload = () => {
-        this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
-        localStorage.setItem('canvasData', this.DOM.toDataURL());
-      };
-    });
-  }
+CanvasPanel.prototype.loadImage = function loadImage(data) {
+  const canvasImage = new Image();
+  canvasImage.crossOrigin = 'anonymous';
+  this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
+  canvasImage.src = data.urls.small;
+  const proportion = Math.min(512 / data.width, 512 / data.height);
+  canvasImage.width = data.width * proportion;
+  canvasImage.height = data.height * proportion;
+  canvasImage.positionLeft = (512 - canvasImage.width) / 2;
+  canvasImage.positionTop = (512 - canvasImage.height) / 2;
+  canvasImage.positionTop = canvasImage.height === 512 ? 0 : canvasImage.positionTop;
+  canvasImage.positionLeft = canvasImage.width === 512 ? 0 : canvasImage.positionLeft;
+  canvasImage.onload = () => {
+    this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
+    localStorage.setItem('canvasData', this.DOM.toDataURL());
+  };
 };
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
@@ -228,13 +244,6 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(event) {
     }
   }
 };
-
-async function requestUrl() {
-  const url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
-  const response = await fetch(url);
-  const resultUrl = await response.json();
-  return resultUrl;
-}
 
 const canvasPanel = new CanvasPanel(document.getElementsByClassName('canvas')[0]);
 const controlPanel = new ControlPanel(document.getElementsByClassName('tools')[0], canvasPanel);

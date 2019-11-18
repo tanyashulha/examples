@@ -238,6 +238,7 @@ body {
     outline: none;
     font-family: var(--main-font);
     margin-top: 30px !important;
+    cursor: auto !important;
 }
 
 .search-block::placeholder {
