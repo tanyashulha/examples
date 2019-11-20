@@ -173,12 +173,13 @@ body {
     cursor: pointer;
     background: transparent;
     border: none;
+    width: 10%;
 }
 
 .page-layout .tools-layout .colors .choosen-colors {
-    width: 40%;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
 
 .page-layout .tools-layout .colors .choosen-colors .color-title {
@@ -188,16 +189,18 @@ body {
     letter-spacing: 0.05em;
 }
 
+.page-layout .tools-layout .colors .choosen-colors .color {
+    height: 15px;
+    width: 15px;
+}
+
 .page-layout .tools-layout .colors .palette-colors {
     width: 100%;
     display: flex;
-    flex-wrap: wrap;
     margin-top: 30px;
 }
 
 .page-layout .tools-layout .colors .palette-colors .color {
-    margin: 1%;
-    width: 5%;
     transition: 0.15s ease-in;
     cursor: pointer;
 }
@@ -207,8 +210,6 @@ body {
 }
 
 .color {
-  height: 15px;
-  width: 15px;
   border: 1px solid;
   border-color: var(--main-txt-color);
 }
@@ -258,14 +259,27 @@ body {
 /*Colors*/ 
 
 .current-color {
-    background-color: #fc0000;
+    background-color: #fcf800;
 }
 
 .prev-color {
-    /* background-color: #ffff00; */
+    background-color: #2afc00;
 }
 
-.apricot {
+.choose-color-red {
+    background-color: #fc0000;
+    height: 30px;
+    width: 30px;
+    margin-right: 30px;
+}
+
+.choose-color-blue {
+    background-color: #00FFFF;
+    height: 30px;
+    width: 30px;
+}
+
+/* .apricot {
     background-color: #FBCEB1;
 }
 
@@ -418,4 +432,4 @@ body {
 
 .mint {
     background-color: #98FF98;
-}
+} */

@@ -1,72 +1,77 @@
 const state = {
-  activeColor: localStorage.getItem('activeColor') || '#fc0000',
+  activeColor: localStorage.getItem('activeColor') || '#fcf800',
   activeControl: localStorage.getItem('activeControl') || null,
   canvasData: localStorage.getItem('canvasData') || null,
   isDrawing: false
 };
 
-function ControlPanel(DOM) {
-  this.DOM = DOM;
+function Tools(view) {
+  this.view = view;
   this.onInit.apply(this);
+  this.setActiveControl.apply(this);
 }
 
-ControlPanel.prototype.onInit = function onInit() {
+Tools.prototype.onInit = function onInit() {
   this.handleControlChange = this.handleControlChange.bind(this);
   this.keyboardControlChange = this.keyboardControlChange.bind(this);
-  this.DOM.addEventListener('click', this.handleControlChange);
+  this.view.addEventListener('click', this.handleControlChange);
   document.addEventListener('keydown', this.keyboardControlChange);
+};
 
-  if (state.activeControl) {
+Tools.prototype.setActiveControl = function setActiveControl() {
+  if (state.activeControl !== null) {
     document.getElementById(state.activeControl).classList.add('active');
   }
 };
 
-ControlPanel.prototype.getTool = function getTool(id) {
+Tools.prototype.getTool = function getTool(id) {
   return document.getElementById(id);
 };
 
-ControlPanel.prototype.handleControlChange = function handleControlChange(e) {
-  state.activeControl = e.target.getAttribute('id');
+Tools.prototype.handleControlChange = function handleControlChange(event) {
+  state.activeControl = event.target.getAttribute('id');
 
-  [].forEach.call(e.currentTarget.children, (v) => {
-    v.classList.remove('active');
+  const childrens = event.currentTarget.children;
+  [...childrens].forEach((children) => {
+    children.classList.remove('active');
   });
+  event.target.classList.add('active');
 
-  e.target.classList.add('active');
   localStorage.setItem('activeControl', state.activeControl);
 };
 
-ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(e) {
-  if (e.keyCode === 67) {
+Tools.prototype.keyboardControlChange = function keyboardControlChange(event) {
+  if (event.keyCode === 67) {
     state.activeControl = this.getTool('choose-color').getAttribute('id');
-    [...this.DOM.children].forEach((el) => {
-      el.classList.remove('active');
+    [...this.view.children].forEach((element) => {
+      element.classList.remove('active');
     });
     this.getTool('choose-color').classList.add('active');
   }
-  if (e.keyCode === 80) {
+  if (event.keyCode === 80) {
     state.activeControl = this.getTool('pencil').getAttribute('id');
-    [...this.DOM.children].forEach((el) => {
-      el.classList.remove('active');
+    [...this.view.children].forEach((element) => {
+      element.classList.remove('active');
     });
     this.getTool('pencil').classList.add('active');
   }
-  if (e.keyCode === 66) {
+  if (event.keyCode === 66) {
     state.activeControl = this.getTool('paint-bucket').getAttribute('id');
-    [...this.DOM.children].forEach((el) => {
-      el.classList.remove('active');
+    [...this.view.children].forEach((element) => {
+      element.classList.remove('active');
     });
     this.getTool('paint-bucket').classList.add('active');
   }
 };
 
-function CanvasPanel(DOM) {
-  this.DOM = DOM;
-  this.offsetX = this.DOM.getBoundingClientRect().x;
-  this.offsetY = this.DOM.getBoundingClientRect().y;
+function CanvasPanel(view) {
+  this.view = view;
+  this.offsetX = this.view.getBoundingClientRect().x;
+  this.offsetY = this.view.getBoundingClientRect().y;
   this.oldX = null;
   this.oldY = null;
   this.onInit.apply(this);
+  this.setCanvasData.apply(this);
 }
 
 CanvasPanel.prototype.onInit = function onInit() {
@@ -75,34 +80,36 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.draw = this.draw.bind(this);
   this.endDraw = this.endDraw.bind(this);
   this.getLineCoord = this.getLineCoord.bind(this);
-  this.DOM.addEventListener('click', this.handlePaint);
-  this.DOM.addEventListener('mousedown', this.startDraw);
-  this.DOM.addEventListener('mousemove', this.draw);
-  this.DOM.addEventListener('mouseup', this.endDraw);
+  this.view.addEventListener('click', this.handlePaint);
+  this.view.addEventListener('mousedown', this.startDraw);
+  this.view.addEventListener('mousemove', this.draw);
+  this.view.addEventListener('mouseup', this.endDraw);
+};
 
-  if (state.canvasData) {
+CanvasPanel.prototype.setCanvasData = function setCanvasData() {
+  if (state.canvasData !== null) {
     const img = new Image();
     img.src = state.canvasData;
     img.onload = () => {
-      this.DOM.getContext('2d').drawImage(img, 0, 0);
+      this.view.getContext('2d').drawImage(img, 0, 0);
     };
   }
 };
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
   if (state.activeControl === 'paint-bucket') {
-    this.DOM.getContext('2d').fillStyle = state.activeColor;
-    this.DOM.getContext('2d').fillRect(0, 0, 512, 512);
-    localStorage.setItem('canvasData', this.DOM.toDataURL());
+    this.view.getContext('2d').fillStyle = state.activeColor;
+    this.view.getContext('2d').fillRect(0, 0, 512, 512);
+    localStorage.setItem('canvasData', this.view.toDataURL());
   }
 };
 
-CanvasPanel.prototype.startDraw = function startDraw(e) {
+CanvasPanel.prototype.startDraw = function startDraw(event) {
   if (state.activeControl === 'pencil') {
     state.isDrawing = true;
     const canvas = document.getElementById('drawing-canvas');
     const context = canvas.getContext('2d');
-    context.moveTo(e.clientX, e.clientY);
+    context.moveTo(event.clientX, event.clientY);
   }
 };
 
@@ -136,14 +143,14 @@ CanvasPanel.prototype.getLineCoord = function getLineCoord(p0, p1) {
   return coord;
 };
 
-CanvasPanel.prototype.draw = function draw(e) {
+CanvasPanel.prototype.draw = function draw(event) {
   if (state.activeControl === 'pencil') {
     if (state.isDrawing) {
       const canvas = document.getElementById('drawing-canvas');
       const context = canvas.getContext('2d');
       context.fillStyle = state.activeColor;
-      const x = e.clientX - this.offsetX;
-      const y = e.clientY - this.offsetY;
+      const x = event.clientX - this.offsetX;
+      const y = event.clientY - this.offsetY;
       // Pencil - normal scope
       // context.fillRect(x, y, 5, 5);
       if (this.oldX !== null) {
@@ -163,34 +170,44 @@ CanvasPanel.prototype.endDraw = function endDraw() {
     state.isDrawing = false;
     this.oldX = null;
     this.oldY = null;
-    localStorage.setItem('canvasData', this.DOM.toDataURL());
+    localStorage.setItem('canvasData', this.view.toDataURL());
   }
 };
 
-function PalettePanel(DOM) {
-  this.DOM = DOM;
-  this.indicators = this.DOM.parentElement;
+function PalettePanel(view) {
+  this.view = view;
+  this.indicators = this.view.parentElement;
   this.onInit.apply(this);
+  this.setActiveColor.apply(this);
 }
 
 PalettePanel.prototype.onInit = function onInit() {
   this.handleColorPick = this.handleColorPick.bind(this);
-  this.DOM.addEventListener('click', this.handleColorPick);
+  this.getColorCanvas = this.getColorCanvas.bind(this);
+  this.view.addEventListener('click', this.handleColorPick);
+  this.view.addEventListener('click', this.getColorCanvas);
+};
 
-  if (state.activeColor) {
+PalettePanel.prototype.setActiveColor = function setActiveColor() {
+  if (state.activeColor !== undefined) {
     this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
   }
 };
 
-PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
+PalettePanel.prototype.handleColorPick = function handleColorPick(event) {
   if (state.activeControl === 'choose-color') {
-    if (e.target.dataset.color) {
+    if (event.target.dataset.color) {
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
-      state.activeColor = e.target.dataset.color;
+      state.activeColor = event.target.dataset.color;
       this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
       localStorage.setItem('activeColor', state.activeColor);
     }
-    if (e.target.classList.contains('change-colors')) {
+  }
+};
+
+PalettePanel.prototype.getColorCanvas = function getColorCanvas(event) {
+  if (state.activeControl === 'choose-color') {
+    if (event.target.classList.contains('change-colors')) {
       const prevColor = this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor;
       this.indicators.getElementsByClassName('prev-color')[0].style.backgroundColor = state.activeColor;
       state.activeColor = prevColor;
@@ -201,5 +218,5 @@ PalettePanel.prototype.handleColorPick = function handleColorPick(e) {
 };
 
 const canvasPanel = new CanvasPanel(document.getElementsByClassName('canvas')[0]);
-const controlPanel = new ControlPanel(document.getElementsByClassName('tools')[0]);
 const palettePanel = new PalettePanel(document.getElementsByClassName('colors')[0]);
+const tools = new Tools(document.getElementsByClassName('tools')[0], canvasPanel, palettePanel);
