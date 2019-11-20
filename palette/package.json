@@ -1,5 +1,21 @@
 {
   "scripts": {
-    "test": "mocha"
+    "test": "mocha",
+    "lint": "eslint"
+  },
+  "name": "palette",
+  "version": "1.0.0",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "eslint": "^6.6.0",
+    "eslint-config-airbnb-base": "^14.0.0",
+    "eslint-plugin-import": "^2.18.2"
   }
 }
