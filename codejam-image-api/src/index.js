@@ -7,28 +7,30 @@ const state = {
   isDrawing: false
 };
 
+const defSize = 512;
+
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
-  } else url = `https://api.unsplash.com/photos/random?query=${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
+  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
 }
 
-function ControlPanel(DOM, canvas) {
-  this.DOM = DOM;
+function ControlPanel(view, canvas) {
+  this.view = view;
   this.canvas = canvas;
-  this.onInit.apply(this);
+  this.onInit();
 }
 
 ControlPanel.prototype.onInit = function onInit() {
   this.handleControlChange = this.handleControlChange.bind(this);
   this.keyboardControlChange = this.keyboardControlChange.bind(this);
   this.handleSearch = this.handleSearch.bind(this);
-  this.DOM.addEventListener('click', this.handleControlChange);
-  this.DOM.addEventListener('keypress', this.handleSearch);
+  this.view.addEventListener('click', this.handleControlChange);
+  this.view.addEventListener('keypress', this.handleSearch);
   document.addEventListener('keydown', this.keyboardControlChange);
 
   if (state.activeControl) {
@@ -43,8 +45,9 @@ ControlPanel.prototype.getTool = function getTool(id) {
 ControlPanel.prototype.handleControlChange = function handleControlChange(event) {
   state.activeControl = event.target.getAttribute('id');
 
-  [].forEach.call(event.currentTarget.children, (v) => {
-    v.classList.remove('active');
+  const childrens = event.currentTarget.children;
+  [...childrens].forEach((children) => {
+    children.classList.remove('active');
   });
 
   event.target.classList.add('active');
@@ -70,11 +73,11 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
     if (state.activeControl === 'tool-min') {
       this.canvas.renderImage(this.canvas.currentImageData);
     }
-  
+
     if (state.activeControl === 'tool-medium') {
       this.canvas.renderImage(this.canvas.currentImageData, 2);
     }
-  
+
     if (state.activeControl === 'tool-max') {
       this.canvas.renderImage(this.canvas.currentImageData, 4);
     }
@@ -93,34 +96,34 @@ ControlPanel.prototype.handleSearch = function handleSearch(e) {
 ControlPanel.prototype.keyboardControlChange = function keyboardControlChange(event) {
   if (event.keyCode === 67) {
     state.activeControl = this.getTool('choose-color').getAttribute('id');
-    [...this.DOM.children].forEach((element) => {
+    [...this.view.children].forEach((element) => {
       element.classList.remove('active');
     });
     this.getTool('choose-color').classList.add('active');
   }
   if (event.keyCode === 80) {
     state.activeControl = this.getTool('pencil').getAttribute('id');
-    [...this.DOM.children].forEach((element) => {
+    [...this.view.children].forEach((element) => {
       element.classList.remove('active');
     });
     this.getTool('pencil').classList.add('active');
   }
   if (event.keyCode === 66) {
     state.activeControl = this.getTool('paint-bucket').getAttribute('id');
-    [...this.DOM.children].forEach((element) => {
+    [...this.view.children].forEach((element) => {
       element.classList.remove('active');
     });
     this.getTool('paint-bucket').classList.add('active');
   }
 };
 
-function CanvasPanel(DOM) {
-  this.DOM = DOM;
-  this.offsetX = this.DOM.getBoundingClientRect().x;
-  this.offsetY = this.DOM.getBoundingClientRect().y;
+function CanvasPanel(view) {
+  this.view = view;
+  this.offsetX = this.view.getBoundingClientRect().x;
+  this.offsetY = this.view.getBoundingClientRect().y;
   this.oldX = null;
   this.oldY = null;
-  this.onInit.apply(this);
+  this.onInit();
 }
 
 CanvasPanel.prototype.onInit = function onInit() {
@@ -131,58 +134,50 @@ CanvasPanel.prototype.onInit = function onInit() {
   this.getLineCoord = this.getLineCoord.bind(this);
   this.renderImage = this.renderImage.bind(this);
   this.changeStyleImage = this.changeStyleImage.bind(this);
-  this.DOM.addEventListener('click', this.handlePaint);
-  this.DOM.addEventListener('mousedown', this.startDraw);
-  this.DOM.addEventListener('mousemove', this.draw);
-  this.DOM.addEventListener('mouseup', this.endDraw);
+  this.view.addEventListener('click', this.handlePaint);
+  this.view.addEventListener('mousedown', this.startDraw);
+  this.view.addEventListener('mousemove', this.draw);
+  this.view.addEventListener('mouseup', this.endDraw);
 
   if (state.canvasData) {
     const img = new Image();
     img.src = state.canvasData;
     img.onload = () => {
-      this.DOM.getContext('2d').drawImage(img, 0, 0);
+      this.view.getContext('2d').drawImage(img, 0, 0);
     };
   }
 };
 
 CanvasPanel.prototype.calculateProportions = function calculateProportions(data, base = 1) {
-  const size = 512 * base;
+  const size = defSize * base;
   const proportion = Math.min(size / data.width, size / data.height);
-  const w = data.width * proportion;
-  const h = data.height * proportion;
+  const canvasWidth = data.width * proportion;
+  const canvasHeight = data.height * proportion;
 
   return {
-    width: w,
-    height: h,
-    positionTop: h === size ? 0 : (512 - h) / 2,
-    positionLeft: w === size ? 0 : (512 - w) / 2
+    width: canvasWidth,
+    height: canvasHeight,
+    positionTop: canvasHeight === size ? 0 : (defSize - canvasHeight) / 2,
+    positionLeft: canvasWidth === size ? 0 : (defSize - canvasWidth) / 2
   };
 };
 
 CanvasPanel.prototype.renderImage = function renderImage(data, base) {
-  this.DOM.getContext('2d').clearRect(0, 0, 512, 512);
+  this.view.getContext('2d').clearRect(0, 0, defSize, defSize);
   const canvasImage = new Image();
-  canvasImage.crossOrigin = 'anonymous';
-  canvasImage.src = data.urls.small;
-  const {
-    width,
-    height,
-    positionLeft,
-    positionTop
-  } = this.calculateProportions(data, base);
-  canvasImage.width = width;
-  canvasImage.height = height;
-  canvasImage.positionLeft = positionLeft;
-  canvasImage.positionTop = positionTop;
+  // canvasImage.crossOrigin = 'anonymous';
+  // canvasImage.src = data.urls.small;
+  const b = this.calculateProportions(data, base);
+  Object.assign(canvasImage, b, { crossOrigin: 'anonymous', src: data.urls.small });
   canvasImage.onload = () => {
-    this.DOM.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
-    state.canvasData = this.DOM.toDataURL();
-    localStorage.setItem('canvasData', this.DOM.toDataURL());
+    this.view.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
+    state.canvasData = this.view.toDataURL();
+    localStorage.setItem('canvasData', this.view.toDataURL());
   };
 };
 
 CanvasPanel.prototype.changeStyleImage = function changeStyleImage() {
-  const imgData = this.DOM.getContext('2d').getImageData(0, 0, 512, 512);
+  const imgData = this.view.getContext('2d').getImageData(0, 0, defSize, defSize);
   const pixels = imgData.data;
   for (let i = 0; i < pixels.length; i += 4) {
     const lightness = parseInt((pixels[i] + pixels[i + 1] + pixels[i + 2]) / 3);
@@ -192,23 +187,23 @@ CanvasPanel.prototype.changeStyleImage = function changeStyleImage() {
     pixels[i + 2] = lightness;
   }
 
-  this.DOM.getContext('2d').putImageData(imgData, 0, 0);
-  state.canvasData = this.DOM.toDataURL();
-  localStorage.setItem('canvasData', this.DOM.toDataURL());
+  this.view.getContext('2d').putImageData(imgData, 0, 0);
+  state.canvasData = this.view.toDataURL();
+  localStorage.setItem('canvasData', this.view.toDataURL());
 };
 
 CanvasPanel.prototype.handlePaint = function handlePaint() {
   if (state.activeControl === 'paint-bucket') {
-    this.DOM.getContext('2d').fillStyle = state.activeColor;
-    this.DOM.getContext('2d').fillRect(0, 0, 512, 512);
-    localStorage.setItem('canvasData', this.DOM.toDataURL());
+    this.view.getContext('2d').fillStyle = state.activeColor;
+    this.view.getContext('2d').fillRect(0, 0, defSize, defSize);
+    localStorage.setItem('canvasData', this.view.toDataURL());
   }
 };
 
 CanvasPanel.prototype.startDraw = function startDraw(event) {
   if (state.activeControl === 'pencil') {
     state.isDrawing = true;
-    this.DOM.getContext('2d').moveTo(event.clientX, event.clientY);
+    this.view.getContext('2d').moveTo(event.clientX, event.clientY);
   }
 };
 
@@ -245,15 +240,13 @@ CanvasPanel.prototype.getLineCoord = function getLineCoord(p0, p1) {
 CanvasPanel.prototype.draw = function draw(event) {
   if (state.activeControl === 'pencil') {
     if (state.isDrawing) {
-      this.DOM.getContext('2d').fillStyle = state.activeColor;
+      this.view.getContext('2d').fillStyle = state.activeColor;
       const x = event.clientX - this.offsetX;
       const y = event.clientY - this.offsetY;
-      // Pencil - normal scope
-      // context.fillRect(x, y, 5, 5);
       if (this.oldX !== null) {
         this.getLineCoord({ x, y }, { x: this.oldX, y: this.oldY }).forEach(({ x, y }) => {
-          this.DOM.getContext('2d').beginPath();
-          this.DOM.getContext('2d').fillRect(x, y, 16, 16);
+          this.view.getContext('2d').beginPath();
+          this.view.getContext('2d').fillRect(x, y, 16, 16);
         });
       }
       this.oldX = x;
@@ -267,19 +260,19 @@ CanvasPanel.prototype.endDraw = function endDraw() {
     state.isDrawing = false;
     this.oldX = null;
     this.oldY = null;
-    localStorage.setItem('canvasData', this.DOM.toDataURL());
+    localStorage.setItem('canvasData', this.view.toDataURL());
   }
 };
 
-function PalettePanel(DOM) {
-  this.DOM = DOM;
-  this.indicators = this.DOM.parentElement;
-  this.onInit.apply(this);
+function PalettePanel(view) {
+  this.view = view;
+  this.indicators = this.view.parentElement;
+  this.onInit();
 }
 
 PalettePanel.prototype.onInit = function onInit() {
   this.handleColorPick = this.handleColorPick.bind(this);
-  this.DOM.addEventListener('click', this.handleColorPick);
+  this.view.addEventListener('click', this.handleColorPick);
 
   if (state.activeColor) {
     this.indicators.getElementsByClassName('current-color')[0].style.backgroundColor = state.activeColor;
