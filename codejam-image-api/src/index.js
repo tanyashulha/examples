@@ -165,10 +165,11 @@ CanvasPanel.prototype.calculateProportions = function calculateProportions(data,
 CanvasPanel.prototype.renderImage = function renderImage(data, base) {
   this.view.getContext('2d').clearRect(0, 0, defSize, defSize);
   const canvasImage = new Image();
-  // canvasImage.crossOrigin = 'anonymous';
-  // canvasImage.src = data.urls.small;
   const b = this.calculateProportions(data, base);
-  Object.assign(canvasImage, b, { crossOrigin: 'anonymous', src: data.urls.small });
+  Object.assign(canvasImage, b, {
+    crossOrigin: 'anonymous',
+    src: data.urls.small
+  });
   canvasImage.onload = () => {
     this.view.getContext('2d').drawImage(canvasImage, canvasImage.positionLeft, canvasImage.positionTop, canvasImage.width, canvasImage.height);
     state.canvasData = this.view.toDataURL();
