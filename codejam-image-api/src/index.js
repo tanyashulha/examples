@@ -4,6 +4,7 @@ const state = {
   activeColor: localStorage.getItem('activeColor') || '#fc0000',
   activeControl: localStorage.getItem('activeControl') || 'pencil',
   canvasData: localStorage.getItem('canvasData') || null,
+  imageData: localStorage.getItem('imageData') && JSON.parse(localStorage.getItem('imageData')),
   isDrawing: false
 };
 
@@ -12,12 +13,13 @@ const defSize = 512;
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
-  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
+  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
 }
+
 
 function ControlPanel(view, canvas) {
   this.view = view;
@@ -56,6 +58,8 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
   if (state.activeControl === 'button-load') {
     requestUrl().then((data) => {
       this.canvas.currentImageData = data;
+      state.imageData = data;
+      localStorage.setItem('imageData', JSON.stringify(data));
       this.canvas.renderImage(data);
     });
   }
@@ -127,6 +131,7 @@ function CanvasPanel(view) {
 }
 
 CanvasPanel.prototype.onInit = function onInit() {
+  this.currentImageData = state.imageData;
   this.handlePaint = this.handlePaint.bind(this);
   this.startDraw = this.startDraw.bind(this);
   this.draw = this.draw.bind(this);
