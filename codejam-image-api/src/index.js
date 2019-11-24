@@ -13,8 +13,8 @@ const defSize = 512;
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5';
-  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=44e686577c229c8ac0c98b246f5cfdbc1de65695ac95b2cdad0899957674f5e5`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
+  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
@@ -91,8 +91,16 @@ ControlPanel.prototype.handleControlChange = function handleControlChange(event)
 ControlPanel.prototype.handleSearch = function handleSearch(e) {
   if (e.key === 'Enter') {
     requestUrl(e.target.value).then((data) => {
-      this.canvas.renderImage(data);
-      e.target.value = '';
+      e.target.value = data.location.city;
+
+      if (e.target.value !== data.location.city || e.target.value === '') {
+        alert('please, fill search field');
+      } else {
+        this.canvas.currentImageData = data;
+        state.imageData = data;
+        localStorage.setItem('imageData', JSON.stringify(data));
+        this.canvas.renderImage(data);
+      }
     });
   }
 };
@@ -158,7 +166,6 @@ CanvasPanel.prototype.calculateProportions = function calculateProportions(data,
   const proportion = Math.min(size / data.width, size / data.height);
   const canvasWidth = data.width * proportion;
   const canvasHeight = data.height * proportion;
-
   return {
     width: canvasWidth,
     height: canvasHeight,
