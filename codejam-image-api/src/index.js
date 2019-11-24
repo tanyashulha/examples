@@ -13,8 +13,8 @@ const defSize = 512;
 async function requestUrl(query) {
   let url;
   if (!query) {
-    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6';
-  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=cbcd6c713eb05f99330576cb3c9c56cce9b446edabf5ff2c80ef834510ac39a6`;
+    url = 'https://api.unsplash.com/photos/random?query=town,Minsk&client_id=d9527d55ef42e54f67eaae0cccda18a110c09ce1c76951211ccd747929c5604a';
+  } else url = `https://api.unsplash.com/photos/random?query=town,${query}&client_id=d9527d55ef42e54f67eaae0cccda18a110c09ce1c76951211ccd747929c5604a`;
   const response = await fetch(url);
   const resultUrl = await response.json();
   return resultUrl;
