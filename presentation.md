@@ -5,4 +5,4 @@
 https://vibrant-heyrovsky-daaf48.netlify.com/
 
 3. Link to the transcript:  
-https://github.com/rolling-scopes-school/tanyashulha-2019Q3/blob/presentation/transcript.md
+https://github.com/rolling-scopes-school/tanyashulha-RS2019Q3/blob/presentation/transcript.md
