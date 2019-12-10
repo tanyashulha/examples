@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            name: '[name].[ext]'
+            name: 'images/[name].[ext]'
           }
         }
       },
@@ -55,6 +56,9 @@ module.exports = {
       filename: '[name].css',
       chunkFilename: '[id].css',
     }),
+    new CopyWebpackPlugin([
+      { from: 'src/images/', to: 'images/' }
+    ]),
     new ImageminPlugin({ test: /\.(jpe?g|png|gif|svg)$/i })
   ]
 };
