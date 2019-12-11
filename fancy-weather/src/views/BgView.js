@@ -18,6 +18,6 @@ export default class BgView {
       this.element = document.getElementById('app-container');
     }
 
-    this.element.innerHTML = this.getElement();
+    this.element.outerHTML = this.getElement();
   }
 }
