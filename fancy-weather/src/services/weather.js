@@ -1,4 +1,5 @@
 import location from './location';
+import { DAYS, MONTHS } from '../constants';
 
 class Weather {
   constructor() {
@@ -8,6 +9,7 @@ class Weather {
   }
 
   async request(lang = 'en') {
+    this.lang = lang;
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     const {
       geometry: { lat, lng },
@@ -24,7 +26,7 @@ class Weather {
       current: {
         name: locationName,
         date: this.formatDate(data.currently.time),
-        time: this.formatTime(data.currently.time),
+        time: this.formatTime(),
         temperature: parseInt(data.currently.temperature, 10),
         icon: data.currently.icon,
         summary: data.currently.summary,
@@ -48,11 +50,11 @@ class Weather {
 
   formatDate(utc) {
     const date = new Date(utc * 1000);
-    return `${date.getDay()} ${date.getDate()} ${date.getMonth()}`;
+    return `${DAYS[this.lang][date.getDay()]}, ${date.getDate()} ${MONTHS[this.lang][date.getMonth()]}`;
   }
 
-  formatTime(utc) {
-    const date = new Date(utc * 1000);
+  formatTime() {
+    const date = new Date();
     return `${date.getHours()}:${date.getMinutes()}`;
   }
 }

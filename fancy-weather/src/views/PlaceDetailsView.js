@@ -1,4 +1,4 @@
-import { IDS, DAYS } from '../constants';
+import { IDS, DAYS, DETAILS_TEXT } from '../constants';
 
 
 export default class PlaceDetailsView {
@@ -26,9 +26,9 @@ export default class PlaceDetailsView {
         </div>
         <div class="overview-block">
           <p class="detail">${placeDetails.current.summary}</p>
-          <p class="detail">Feels like: <span>${placeDetails.current.feels}</span>&#176;</p>
-          <p class="detail">Wind: <span>${placeDetails.current.wind}</span> m/s</p>
-          <p class="detail">Humidity: <span>${placeDetails.current.humidity}</span>%</p>
+          <p class="detail">${DETAILS_TEXT.en.feels}<span>${placeDetails.current.feels}</span>&#176;</p>
+          <p class="detail">${DETAILS_TEXT.en.wind}<span>${placeDetails.current.wind}</span>${DETAILS_TEXT.en.mtr}</p>
+          <p class="detail">${DETAILS_TEXT.en.humidity}<span>${placeDetails.current.humidity}</span>%</p>
         </div>
       </div>
       ${placeDetails.daily.map(this.getDay).join('')}
@@ -42,7 +42,7 @@ export default class PlaceDetailsView {
   getDay({ day, icon, temperature }) {
     return `
       <div class="future-weather-block">
-        <p class="date">${day}</p>
+        <p class="date">${DAYS.en[day]}</p>
         <p class="grad"><span>${temperature}</span>&#176;</p>
         <i class="wi wi-${icon}"></i>
       </div>`;
