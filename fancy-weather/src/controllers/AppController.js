@@ -5,6 +5,7 @@ import location from '../services/location';
 import BgController from './BgController';
 import PlaceDetailsController from './PlaceDetailsController';
 import PlaceLocationController from './PlaceLocationController';
+import ControlsController from './ControlsController';
 
 export default class AppController {
   constructor(appView, appModel) {
@@ -13,6 +14,7 @@ export default class AppController {
     this.bgController = new BgController(this.view.getV('bg'), this.model.getM('bg'));
     this.placeDetailsController = new PlaceDetailsController(this.view.getV('placeDetails'), this.model.getM('placeDetails'));
     this.placeLocationController = new PlaceLocationController(this.view.getV('placeLocation'), this.model.getM('placeLocation'));
+    this.controlsController = new ControlsController(this.view.getV('controls'), this.bgController);
 
     this.init();
   }
