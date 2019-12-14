@@ -55,7 +55,8 @@ class Weather {
 
   formatTime() {
     const date = new Date();
-    return `${date.getHours()}:${date.getMinutes()}`;
+    const minutes = `0${date.getMinutes()}`.slice(-2);
+    return `${date.getHours()}:${minutes}`;
   }
 }
 

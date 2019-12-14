@@ -49,8 +49,8 @@ body {
         @media (max-width: 575.98px) {
             flex-wrap: wrap;
         }
-        .header-refresh,
-        .header-language {
+        .button-refresh,
+        .button-language {
             background: rgba(58, 56, 56, 0.8);
             box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
             padding:0 8px;
@@ -75,10 +75,10 @@ body {
                 order: 2;
             }
         }
-        .header-refresh:hover img {
+        .button-refresh:hover img {
             transform: rotate(360deg);
         } 
-        .header-language {
+        .button-language {
             position: relative;
             .drop-button {
                 display: flex;
@@ -125,7 +125,7 @@ body {
                 visibility: visible;
             }
         }
-        .header-temperature {
+        .button-temperature {
             display: flex;
             box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
             background: rgba(58, 56, 56, 0.8);
@@ -257,7 +257,7 @@ body {
             @media (max-width: 991.98px) {
                 width: 100%;
             }
-            .location-block {
+            .location {
                 background: rgba(0, 0, 0, 0.5);
                 box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
                 display: flex;
@@ -271,14 +271,12 @@ body {
                     font-weight: bold;
                     font-size: 40px;
                     margin: 0;
-                    width: 60%;
                 } 
-                .date-block {
+                .date {
                     display: flex;
                     flex-direction: column;
                     align-items: center;
                     justify-content: center;
-                    width: 40%;
                     .date {
                         color: white;
                         border-top: 1px solid rgb(44, 44, 44);
@@ -302,7 +300,7 @@ body {
                     }
                 }
             }
-            .weather-block {
+            .weather {
                 margin-top: 20px;
                 background: rgba(0, 0, 0, 0.5);
                 box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);
@@ -326,7 +324,7 @@ body {
                         font-size: 100px;
                     }
                 }
-                .overview-block {
+                .overview {
                     display: flex;
                     justify-content: space-around;
                     margin-top: 20px;
@@ -345,7 +343,7 @@ body {
                     }
                 }
             }
-            .future-weather-block {
+            .future-weather {
                 margin-top: 20px;
                 background: rgba(0, 0, 0, 0.5);
                 box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.75);

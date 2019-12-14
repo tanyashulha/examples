@@ -1,3 +1,5 @@
+import currentLocation from './currentPosition';
+
 class Location {
   constructor() {
     this.baseUrl = 'https://api.opencagedata.com/geocode/v1/json';
@@ -8,7 +10,10 @@ class Location {
     return `${this.baseUrl}?q=${query}&key=${this.key}&language=en&pretty=1&no_annotations=1`;
   }
 
-  async request(query = 'Minsk') {
+  async request(query) {
+    if (!query) {
+      query = await currentLocation.request();
+    }
     const url = this.getRequestUrl(query);
     const response = await fetch(url);
     const responseData = await response.json();

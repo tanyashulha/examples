@@ -41,18 +41,24 @@ export const DETAILS_TEXT = {
     wind: 'Wind: ',
     humidity: 'Humidity: ',
     mtr: ' m/s',
+    lat: 'Latitude: ',
+    long: 'Longotude: ',
   },
   ru: {
     feels: 'Ощущается как: ',
     wind: 'Ветер: ',
     humidity: 'Влажность: ',
     mtr: ' м/с',
+    lat: 'Широта: ',
+    long: 'Долгота: ',
   },
   be: {
     feels: 'Адчуваецца як: ',
     wind: 'Вецер: ',
     humidity: 'Вiльготнасць: ',
     mtr: ' м/с',
+    lat: 'Шырыня: ',
+    long: 'Даугата: ',
   }
 };
 
