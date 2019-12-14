@@ -4,11 +4,10 @@ export default class PlaceDetailsController {
   constructor(placeDetailsView, placeDetailsModel) {
     this.model = placeDetailsModel;
     this.view = placeDetailsView;
-    this.updatePlace();
   }
 
-  async updatePlace() {
-    const placeData = await weather.request();
+  async updatePlace(locationData) {
+    const placeData = await weather.request(locationData);
     this.model.setPlaceDetails(placeData);
   }
 }

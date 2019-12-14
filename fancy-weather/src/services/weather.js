@@ -1,20 +1,18 @@
-import location from './location';
 import { DAYS, MONTHS } from '../constants';
 
 class Weather {
   constructor() {
     this.baseUrl = 'https://api.darksky.net/forecast/';
     this.key = '943647ff9e14f1576eed0e266f439920';
-    this.location = location.request();
   }
 
-  async request(lang = 'en') {
+  async request(location = { geometry: {} }, lang = 'en') {
     this.lang = lang;
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     const {
       geometry: { lat, lng },
       formatted
-    } = await this.location;
+    } = location;
     const url = `${proxy}${this.baseUrl}${this.key}/${lat},${lng}?lang=${lang}&exclude=hourly,flags&units=si`;
     const response = await fetch(url);
     const responseData = await response.json();

@@ -2,7 +2,9 @@ export const IDS = {
   container: 'app-container',
   controls: 'app-controls',
   details: 'place-details',
-  position: 'place-position'
+  position: 'place-position',
+  map: 'map',
+  coords: 'coords'
 };
 
 export const DAYS = {
@@ -42,7 +44,7 @@ export const DETAILS_TEXT = {
     humidity: 'Humidity: ',
     mtr: ' m/s',
     lat: 'Latitude: ',
-    long: 'Longotude: ',
+    lng: 'Longitude: ',
   },
   ru: {
     feels: 'Ощущается как: ',
@@ -50,7 +52,7 @@ export const DETAILS_TEXT = {
     humidity: 'Влажность: ',
     mtr: ' м/с',
     lat: 'Широта: ',
-    long: 'Долгота: ',
+    lng: 'Долгота: ',
   },
   be: {
     feels: 'Адчуваецца як: ',
@@ -58,7 +60,7 @@ export const DETAILS_TEXT = {
     humidity: 'Вiльготнасць: ',
     mtr: ' м/с',
     lat: 'Шырыня: ',
-    long: 'Даугата: ',
+    lng: 'Даугата: ',
   }
 };
 
