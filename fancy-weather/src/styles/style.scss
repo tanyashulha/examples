@@ -314,9 +314,10 @@ body {
                     justify-content: space-around;
                     align-items: center;
                     border-bottom: 1px solid rgb(44, 44, 44);
+                    padding: 15px 0;
                     i {
                         color: white;
-                        font-size: 130px;
+                        font-size: 100px;
                     }
                     .grad {
                         margin: 0;
@@ -360,6 +361,19 @@ body {
                     width: 30%;
                     margin: 0;
                     @media (max-width: 767.98px) {
+                        font-size: 30px;
+                    }
+                }
+                i {
+                    @media (max-width: 575.98px) {
+                        display: none;
+                    }
+                }
+                .grad {
+                    margin: 0 20px 0 0;
+                    font-size: 45px;
+                    @media (max-width: 575.98px) {
+                        margin: 0;
                         font-size: 30px;
                     }
                 }

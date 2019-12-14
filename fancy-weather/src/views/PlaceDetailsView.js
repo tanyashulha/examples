@@ -20,7 +20,7 @@ export default class PlaceDetailsView {
       </div>
       <div class="weather">
         <div class="temperature">
-          <i class="wi wi-${placeDetails.current.icon}"></i>
+          <i class="wi wi-forecast-io-${placeDetails.current.icon}"></i>
           <p class="grad"><span>${placeDetails.current.temperature}</span>&#176;</p>
         </div>
         <div class="overview">
@@ -43,7 +43,7 @@ export default class PlaceDetailsView {
       <div class="future-weather">
         <p class="date">${DAYS.en[day]}</p>
         <p class="grad"><span>${temperature}</span>&#176;</p>
-        <i class="wi wi-${icon}"></i>
+        <i class="wi wi-forecast-io-${icon}"></i>
       </div>`;
   }
 }

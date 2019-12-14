@@ -3,11 +3,19 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const ImageminPlugin = require('imagemin-webpack-plugin').default;
+const path = require('path');
 
 module.exports = {
   entry: './src/index.js',
   output: {
     filename: './index.js'
+  },
+  resolve: {
+    extensions: ['', '.js'],
+    alias: {
+      webworkify: 'webworkify-webpack',
+      'mapbox-gl': path.resolve('./node_modules/mapbox-gl/dist/mapbox-gl.js')
+    }
   },
   module: {
     rules: [
@@ -44,6 +52,10 @@ module.exports = {
         use: {
           loader: 'html-loader',
         }
+      },
+      {
+        test: /mapbox-gl.+\.js$/,
+        loader: 'transform/cacheable?brfs'
       }
     ]
   },
