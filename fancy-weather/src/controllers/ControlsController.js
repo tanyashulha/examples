@@ -15,9 +15,9 @@ export default class ControlsController {
       const searchSucceed = await this.search(query);
 
       if (!searchSucceed) {
-        this.view.searchInput.classList.add('error');
+        this.view.search.classList.add('error');
         setTimeout(() => {
-          this.view.searchInput.classList.remove('error');
+          this.view.search.classList.remove('error');
         }, 1000);
       }
     }
