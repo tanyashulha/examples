@@ -17,7 +17,7 @@ export default class ControlsView {
 
   createRefreshButton() {
     return `
-      <div class="button-refresh" id='refresh'>
+      <div class="button-refresh" id="refresh">
         <img src="images/refresh.png" alt="">
       </div>
     `;
@@ -50,16 +50,17 @@ export default class ControlsView {
 
   createSearchField() {
     return `
-      <div class="search-field">
-        <input type="search" id="site-search" name="search" placeholder="Search city or ZIP">
-        <button class="microphone"><img src="images/micr.png" alt=""></button>
+      <form class="search-field" id="search">
+        <input type="search" id="search-value" name="search" placeholder="Search city or ZIP">
         <button class="submit-button">Search</button>
-      </div>
+      </form>
     `;
   }
 
   render() {
     this.element.innerHTML = this.createElement();
     this.refresh = document.getElementById('refresh');
+    this.search = document.getElementById('search');
+    this.searchInput = document.getElementById('search-value');
   }
 }

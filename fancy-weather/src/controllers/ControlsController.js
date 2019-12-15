@@ -1,12 +1,11 @@
 export default class ControlsController {
-  constructor(controlsView, bgController) {
+  constructor(controlsView, updateBg, search) {
     this.view = controlsView;
-    this.bgController = bgController;
 
-    this.view.refresh.addEventListener('click', this.updateBg.bind(this));
-  }
-
-  updateBg() {
-    this.bgController.updateBg();
+    this.view.refresh.addEventListener('click', updateBg);
+    this.view.search.addEventListener('submit', (e) => {
+      e.preventDefault();
+      search(this.view.searchInput.value);
+    });
   }
 }

@@ -17,11 +17,16 @@ class Location {
     const url = this.getRequestUrl(query);
     const response = await fetch(url);
     const responseData = await response.json();
-    const result = responseData.results[0];
-    return {
-      formatted: result.formatted,
-      geometry: result.geometry
-    };
+
+    if (responseData.status.code === 200) {
+      const result = responseData.results[0];
+      return {
+        formatted: result.formatted,
+        geometry: result.geometry
+      };
+    }
+
+    return false;
   }
 }
 

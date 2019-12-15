@@ -4,6 +4,8 @@ export default class BgController {
   constructor(bgView, bgModel) {
     this.model = bgModel;
     this.view = bgView;
+
+    this.updateBg = this.updateBg.bind(this);
   }
 
   async updateBg() {

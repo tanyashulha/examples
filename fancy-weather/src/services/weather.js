@@ -3,7 +3,7 @@ import { DAYS, MONTHS } from '../constants';
 class Weather {
   constructor() {
     this.baseUrl = 'https://api.darksky.net/forecast/';
-    this.key = '943647ff9e14f1576eed0e266f439920';
+    this.key = '81230847a84a88aed4968cf90d060929';
   }
 
   async request(location = { geometry: {} }, lang = 'en') {
@@ -24,7 +24,7 @@ class Weather {
       current: {
         name: locationName,
         date: this.formatDate(data.currently.time),
-        time: this.formatTime(),
+        time: this.formatTime(data.offset),
         temperature: parseInt(data.currently.temperature, 10),
         icon: data.currently.icon,
         summary: data.currently.summary,
@@ -51,8 +51,10 @@ class Weather {
     return `${DAYS[this.lang][date.getDay()]}, ${date.getDate()} ${MONTHS[this.lang][date.getMonth()]}`;
   }
 
-  formatTime() {
+  formatTime(offset) {
+    offset -= 3;
     const date = new Date();
+    date.setTime( date.getTime() + offset * 60 * 60 * 1000 );
     const minutes = `0${date.getMinutes()}`.slice(-2);
     return `${date.getHours()}:${minutes}`;
   }
