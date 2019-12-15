@@ -42,7 +42,7 @@ export default class ControlsView {
 
   createTemperatureSwitcher() {
     return `
-      <div class="button-temperature">
+      <div class="button-temperature" id=${this.ids.temperature}>
         <div class="temp-far">&deg;F</div>
         <div class="temp-cel active">&deg;C</div>
       </div>
@@ -63,5 +63,6 @@ export default class ControlsView {
     this.refresh = document.getElementById('refresh');
     this.search = document.getElementById('search');
     this.searchInput = document.getElementById('search-value');
+    this.temperature = document.getElementById('temperature');
   }
 }

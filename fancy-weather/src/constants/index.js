@@ -7,7 +7,8 @@ export const IDS = {
   coords: 'coords',
   search: 'search',
   searchInput: 'search-value',
-  refresh: 'refresh'
+  refresh: 'refresh',
+  temperature: 'temperature'
 };
 
 export const DAYS = {
