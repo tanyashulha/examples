@@ -111,3 +111,45 @@ export const MONTHS = {
     11: ' Снежня',
   },
 };
+
+export const SEASONS = {
+  January: 'winter',
+  February: 'winter',
+  March: 'spring',
+  April: 'spring',
+  May: 'spring',
+  June: 'summer',
+  July: 'summer',
+  August: 'summer',
+  September: 'autumn',
+  October: 'autumn',
+  November: 'autumn',
+  December: 'winter'
+};
+
+export const TIME = {
+  '00': 'night',
+  '01': 'night',
+  '02': 'night',
+  '03': 'night',
+  '04': 'night',
+  '05': 'night',
+  '06': 'night',
+  '07': 'morning',
+  '08': 'morning',
+  '09': 'morning',
+  '10': 'morning',
+  '11': 'morning',
+  '12': 'morning',
+  '13': 'day',
+  '14': 'day',
+  '15': 'day',
+  '16': 'day',
+  '17': 'day',
+  '18': 'day',
+  '19': 'evening',
+  '20': 'evening',
+  '21': 'evening',
+  '22': 'evening',
+  '23': 'evening'
+}

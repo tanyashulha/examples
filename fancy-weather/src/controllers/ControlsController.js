@@ -3,7 +3,7 @@ export default class ControlsController {
     this.view = controlsView;
     this.search = search;
 
-    this.view.refresh.addEventListener('click', updateBg);
+    this.view.refresh.addEventListener('click', () => updateBg());
     this.view.search.addEventListener('submit', this.onSearch.bind(this));
   }
 

@@ -55,8 +55,9 @@ class Weather {
     offset -= 3;
     const date = new Date();
     date.setTime( date.getTime() + offset * 60 * 60 * 1000 );
+    const hours = `0${date.getHours()}`.slice(-2);
     const minutes = `0${date.getMinutes()}`.slice(-2);
-    return `${date.getHours()}:${minutes}`;
+    return `${hours}:${minutes}`;
   }
 }
 

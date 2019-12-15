@@ -23,9 +23,16 @@ export default class AppController {
     const locationData = await location.request(query);
 
     if (locationData) {
-      this.placeDetailsController.updatePlace(locationData);
       this.placeLocationController.updateLocation(locationData.geometry);
-      this.bgController.updateBg();
+      await this.placeDetailsController.updatePlace(locationData);
+
+      const {
+        summary,
+        season,
+        time,
+        name
+      } = this.placeDetailsController.getPlaceWeather();
+      this.bgController.updateBg(name, season, time, summary);
       return true;
     }
 
