@@ -4,7 +4,7 @@ export default class BgModel extends BaseModel {
   constructor() {
     super();
     this.image = {
-      src: '../images/img1.jpg'
+      src: ''
     };
   }
 

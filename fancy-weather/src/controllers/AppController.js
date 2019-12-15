@@ -23,6 +23,7 @@ export default class AppController {
     const locationData = await location.request();
     this.placeDetailsController.updatePlace(locationData);
     this.placeLocationController.updateLocation(locationData.geometry);
+    this.bgController.updateBg();
   }
 
   getC(controllerName) {

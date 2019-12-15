@@ -34,7 +34,7 @@ export default class PlaceLocationView {
       container: 'map',
       style: 'mapbox://styles/mapbox/streets-v8',
       center: [lat, lng],
-      zoom: 9
+      zoom: 10
     });
   }
 
