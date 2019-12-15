@@ -4,7 +4,10 @@ export const IDS = {
   details: 'place-details',
   position: 'place-position',
   map: 'map',
-  coords: 'coords'
+  coords: 'coords',
+  search: 'search',
+  searchInput: 'search-value',
+  refresh: 'refresh'
 };
 
 export const DAYS = {

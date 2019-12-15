@@ -26,7 +26,10 @@ export default class AppController {
       this.placeDetailsController.updatePlace(locationData);
       this.placeLocationController.updateLocation(locationData.geometry);
       this.bgController.updateBg();
+      return true;
     }
+
+    return false;
   }
 
   getC(controllerName) {

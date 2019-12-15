@@ -2,6 +2,7 @@ import { IDS } from '../constants';
 
 export default class ControlsView {
   constructor() {
+    this.ids = IDS;
     this.element = document.getElementById(IDS.controls);
     this.render();
   }
@@ -17,7 +18,7 @@ export default class ControlsView {
 
   createRefreshButton() {
     return `
-      <div class="button-refresh" id="refresh">
+      <div class="button-refresh" id=${this.ids.refresh}>
         <img src="images/refresh.png" alt="">
       </div>
     `;
@@ -50,8 +51,8 @@ export default class ControlsView {
 
   createSearchField() {
     return `
-      <form class="search-field" id="search">
-        <input type="search" id="search-value" name="search" placeholder="Search city or ZIP">
+      <form class="search-field" id=${this.ids.search}>
+        <input type="search" id=${this.ids.searchInput} name="search" placeholder="Search city..." required>
         <button class="submit-button">Search</button>
       </form>
     `;

@@ -1,11 +1,25 @@
 export default class ControlsController {
   constructor(controlsView, updateBg, search) {
     this.view = controlsView;
+    this.search = search;
 
     this.view.refresh.addEventListener('click', updateBg);
-    this.view.search.addEventListener('submit', (e) => {
-      e.preventDefault();
-      search(this.view.searchInput.value);
-    });
+    this.view.search.addEventListener('submit', this.onSearch.bind(this));
+  }
+
+  async onSearch(event) {
+    event.preventDefault();
+    const query = this.view.searchInput.value;
+
+    if (query) {
+      const searchSucceed = await this.search(query);
+
+      if (!searchSucceed) {
+        this.view.searchInput.classList.add('error');
+        setTimeout(() => {
+          this.view.searchInput.classList.remove('error');
+        }, 1000);
+      }
+    }
   }
 }

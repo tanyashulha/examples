@@ -18,7 +18,7 @@ class Location {
     const response = await fetch(url);
     const responseData = await response.json();
 
-    if (responseData.status.code === 200) {
+    if (responseData.status.code === 200 && responseData.results.length) {
       const result = responseData.results[0];
       return {
         formatted: result.formatted,

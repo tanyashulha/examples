@@ -1,6 +1,7 @@
 body {
     margin: 0 auto;
     cursor: default;
+    font-family: 'Nanum Gothic', sans-serif;
 }
 
 .container {
@@ -89,6 +90,7 @@ body {
                 span {
                     transform: rotate(90deg);
                     transition: 0.2s ease-in;
+                    font-size: 10px;
                 }
             }
             &:hover span{
@@ -176,6 +178,7 @@ body {
                 outline: none;
                 border-top-left-radius: 4px;
                 border-bottom-left-radius: 4px;
+                color: white;
                 &:hover,
                 &:focus {
                     background: rgb(34, 34, 34);
@@ -203,42 +206,15 @@ body {
                     box-shadow: -1px 2px 5px 0px rgba(0, 0, 0, 0.95);
                 }
                 @media (max-width: 575.98px) {
-                    width: 20%;
+                    width: 40%;
                     font-size: 10px;
                 }
             }
-            .microphone {
-                background-color: rgba(58, 56, 56, 0.8);
-                border: none;
-                border-left: 1px solid rgb(87, 87, 87);
-                height: 30px;
-                cursor: pointer;
-                outline: none;
-                &:hover img{
-                    animation: 1.2s ease-in-out 0s normal none infinite running trambling-animation;
-                }
-                @media (max-width: 575.98px) {
-                    width: 20%;
-                }
-                @keyframes trambling-animation {
-                    0%, 50%, 100% {
-                        transform: rotate(0deg);
-                    }
-                    10%, 30% {
-                        transform: rotate(-10deg);
-                    }
-                    20%, 40% {
-                        transform: rotate(10deg);
-                    }
-                }
-                img {
-                    height: 20px;
-                }
-                &:hover,
-                &:focus {
-                    background: rgb(34, 34, 34);
-                }
-            }
+        }
+
+        .error {
+            background: rgb(255, 1, 1) !important;
+            box-shadow: -1px 2px 5px 0px rgba(255, 7, 7, 0.95) !important;
         }
     }
     .main {
@@ -360,11 +336,11 @@ body {
                     font-size: 50px;
                     width: 30%;
                     margin: 0;
-                    @media (max-width: 767.98px) {
-                        font-size: 30px;
-                    }
                 }
                 i {
+                    @media (max-width: 991.98px) {
+                        font-size: 30px;
+                    }
                     @media (max-width: 575.98px) {
                         display: none;
                     }
@@ -372,9 +348,12 @@ body {
                 .grad {
                     margin: 0 20px 0 0;
                     font-size: 45px;
+                    @media (max-width: 991.98px) {
+                        font-size: 30px;
+                    }
                     @media (max-width: 575.98px) {
                         margin: 0;
-                        font-size: 30px;
+                        font-size: 22px;
                     }
                 }
                 .date {
@@ -418,7 +397,7 @@ body {
             
             .coord-txt {
                 color: white;
-                font-size: 20px;
+                font-size: 18px;
                 @media (max-width: 575.98px) {
                     font-size: 14px;
                 }
