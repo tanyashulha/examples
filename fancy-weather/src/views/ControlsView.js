@@ -43,8 +43,8 @@ export default class ControlsView {
   createTemperatureSwitcher() {
     return `
       <div class="button-temperature" id=${this.ids.temperature}>
-        <div class="temp-far">&deg;F</div>
-        <div class="temp-cel active">&deg;C</div>
+        <div class="temp-far" data-units="us">&deg;F</div>
+        <div class="temp-cel active" data-units="si">&deg;C</div>
       </div>
     `;
   }

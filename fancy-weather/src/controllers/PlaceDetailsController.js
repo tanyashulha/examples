@@ -7,8 +7,8 @@ export default class PlaceDetailsController {
     this.view = placeDetailsView;
   }
 
-  async updatePlace(locationData) {
-    const placeData = await weather.request(locationData);
+  async updatePlace(locationData, units) {
+    const placeData = await weather.request(locationData, units);
     this.model.setPlaceDetails(placeData);
   }
 

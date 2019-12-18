@@ -6,14 +6,14 @@ class Weather {
     this.key = '81230847a84a88aed4968cf90d060929';
   }
 
-  async request(location = { geometry: {} }, lang = 'en') {
+  async request(location = { geometry: {} }, units = 'si', lang = 'en') {
     this.lang = lang;
     const proxy = 'https://cors-anywhere.herokuapp.com/';
     const {
       geometry: { lat, lng },
       formatted
     } = location;
-    const url = `${proxy}${this.baseUrl}${this.key}/${lat},${lng}?lang=${lang}&exclude=hourly,flags&units=si`;
+    const url = `${proxy}${this.baseUrl}${this.key}/${lat},${lng}?lang=${lang}&exclude=hourly,flags&units=${units}`;
     const response = await fetch(url);
     const responseData = await response.json();
     return this.formatOutput(responseData, formatted);
