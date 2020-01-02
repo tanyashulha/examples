@@ -1,0 +1,28 @@
+{
+  "name": "simple-piskel-clone",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@material-ui/core": "^4.0.1",
+    "@material-ui/icons": "^4.0.1",
+    "@material-ui/lab": "^4.0.0-alpha.14",
+    "@material-ui/styles": "^4.0.1",
+    "material-ui-color-picker": "^3.2.0",
+    "react": "^16.8.6",
+    "react-color": "^2.17.3",
+    "react-dom": "^16.8.6",
+    "react-redux": "^7.1.0",
+    "react-scripts": "0.9.5",
+    "redux": "^4.0.1"
+  },
+  "devDependencies": {
+    "eslint": "^6.8.0",
+    "eslint-plugin-react": "^7.17.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  }
+}
