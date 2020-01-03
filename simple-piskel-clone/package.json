@@ -7,6 +7,7 @@
     "@material-ui/icons": "^4.0.1",
     "@material-ui/lab": "^4.0.0-alpha.14",
     "@material-ui/styles": "^4.0.1",
+    "eslint": "^5.16.0",
     "material-ui-color-picker": "^3.2.0",
     "react": "^16.8.6",
     "react-color": "^2.17.3",
@@ -16,7 +17,6 @@
     "redux": "^4.0.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0",
     "eslint-plugin-react": "^7.17.0"
   },
   "scripts": {

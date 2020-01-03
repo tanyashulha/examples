@@ -1,0 +1,18 @@
+import React, { Component } from 'react';
+import Grid from '@material-ui/core/Grid';
+import Container from '@material-ui/core/Container';
+import MainFrame from './containers/MainFrame/';
+
+class App extends Component {
+  render() {
+    return (
+      <Container>
+        <Grid container direction="row" alignItems="flex-start" justify="space-between" item xs={12}>
+          <MainFrame />
+        </Grid>
+      </Container>
+    );
+  }
+}
+
+export default App;

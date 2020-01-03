@@ -4,6 +4,10 @@
     "jest": true,
     "es6": true
   },
+  "parserOptions": {
+    "sourceType": "module"
+  },
+  "parser": "babel-eslint",
   "extends": "eslint:recommended",
   "rules": {
     "no-console": "error"
