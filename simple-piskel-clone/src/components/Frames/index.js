@@ -24,7 +24,7 @@ class Frames extends Component {
         {frames}
       </Grid>
       <Grid item>
-        <Fab color="primary" aria-label="Add" onClick={this.props.addFrame}>
+        <Fab color="gray" aria-label="Add" onClick={this.props.addFrame}>
           <AddIcon />
         </Fab>
       </Grid>

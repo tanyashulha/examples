@@ -6,7 +6,7 @@ const useStyles = makeStyles({
   button: {
     width: 50,
     height: 50,
-    border: '4px solid #aaa',
+    border: '2px solid #aaa',
     backgroundColor: props => props.color.hex || props.color,
     marginRight: 8,
     marginTop: 16

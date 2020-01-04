@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import Frames from '../../components/Frames/';
 import { addFrame, setActiveFrame, cloneFrame, deleteFrame } from '../../actions/frames';
 

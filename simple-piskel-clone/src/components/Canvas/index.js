@@ -6,9 +6,8 @@ const useStyles = makeStyles({
   canvas: {
     border: '1px solid #191919',
     backgroundColor: '#292929',
-    backgroundImage: `${BACKGROUND}`,
-    backgroundSize: '20px 20px',
-    backgroundPosition: '0 0, 10px 10px',
+    backgroundImage: `url(${BACKGROUND})`,
+    backgroundSize: 'cover',
     width: CANVAS_SIZE,
     height: CANVAS_SIZE
   }

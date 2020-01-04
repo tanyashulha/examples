@@ -12,8 +12,8 @@ const useStyles = makeStyles({
     backgroundSize: 'cover',
     height: FRAME_SIZE,
     width: FRAME_SIZE,
-    border: '2px solid gray',
-    borderColor: props => props.active ? '#3f51b5' : 'gray',
+    border: '1px solid #8d8f94',
+    borderColor: props => props.active ? '#191919' : '#8d8f94',
     display: ' flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -21,8 +21,8 @@ const useStyles = makeStyles({
     marginBottom: 10
   },
   frameButton: {
-    border: '1px solid gray',
-    borderColor: props => props.active ? '#3f51b5' : 'gray',
+    border: '1px solid #8d8f94',
+    borderColor: props => props.active ? '#191919' : '#8d8f94',
     borderRadius: 0,
     width: 40,
     height: 30
