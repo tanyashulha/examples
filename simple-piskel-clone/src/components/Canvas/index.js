@@ -13,12 +13,18 @@ const useStyles = makeStyles({
   }
 });
 
-export default React.forwardRef(() => {
+export default React.forwardRef((props, ref) => {
   const classes = useStyles();
 
   return (
     <canvas
+      ref={ref}
+      width={props.size}
+      height={props.size}
       className={classes.canvas}
+      onMouseUp={props.onMouseUp}
+      onMouseDown={props.onMouseDown}
+      onMouseMove={props.onMouseMove}
     />
   );
 });

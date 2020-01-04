@@ -7,14 +7,14 @@ import ToggleButton from '@material-ui/lab/ToggleButton';
 const useStyles = makeStyles({
   toggleButtonGroup: {
     flexDirection: 'column',
-    border: '1px solid #292929',
+    border: '1px solid #191919',
   },
   toggleButton: {
     border: 'none',
-    backgroundColor: '#292929',
+    backgroundColor: '#191919',
   },
   buttonIcon: {
-   color: '#cbb74d',
+   color: '#8d8f94',
   }
 });
 
