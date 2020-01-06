@@ -155,7 +155,7 @@ class MainFrame extends Component {
         break;
     }
 		
-	  this.props.saveFrame(this.ref.current);
+	this.props.saveFrame(this.ref.current);
   }
 
   render() {

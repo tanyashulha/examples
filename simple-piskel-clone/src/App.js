@@ -5,6 +5,8 @@ import ToolSelectionGroup from './containers/ToolSelectionGroup/';
 import MainFrame from './containers/MainFrame/';
 import Pallete from './containers/Pallete';
 import Frames from './containers/Frames/';
+import FPSSelect from './containers/FPSSelect';
+import Preview from './containers/Preview/';
 
 class App extends Component {
   render() {
@@ -16,9 +18,12 @@ class App extends Component {
           <Pallete />
         </Grid>
         <Frames />
-        <MainFrame />
         <Grid item>
-
+          <MainFrame />
+        </Grid>
+        <Grid item>
+          <Preview />
+          <FPSSelect />
         </Grid>
         </Grid>
       </Container>
