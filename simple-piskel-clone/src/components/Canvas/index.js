@@ -1,11 +1,10 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { CANVAS_SIZE, BACKGROUND } from '../../constants/canvas';
+import { CANVAS_SIZE, BACKGROUND, BORDER_DEFAULT } from '../../constants/constants';
 
 const useStyles = makeStyles({
   canvas: {
-    border: '1px solid #191919',
-    backgroundColor: '#292929',
+    border: BORDER_DEFAULT,
     backgroundImage: `url(${BACKGROUND})`,
     backgroundSize: 'cover',
     width: CANVAS_SIZE,

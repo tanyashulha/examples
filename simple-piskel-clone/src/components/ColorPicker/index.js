@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { BlockPicker } from 'react-color';
 import { makeStyles } from '@material-ui/styles';
+import { BUTTON_SIZE, BORDER_ACTIVE } from '../../constants/constants';
 
 const useStyles = makeStyles({
   button: {
-    width: 50,
-    height: 50,
-    border: '2px solid #aaa',
+    width: BUTTON_SIZE,
+    height: BUTTON_SIZE,
+    border: BORDER_ACTIVE,
     backgroundColor: props => props.color.hex || props.color,
     marginRight: 8,
     marginTop: 16

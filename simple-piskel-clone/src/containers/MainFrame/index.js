@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import Canvas from '../../components/Canvas/';
-import { CANVAS_SIZE } from '../../constants/canvas';
+import { CANVAS_SIZE } from '../../constants/constants';
 import { saveFrame } from '../../actions/frames';
 
 class MainFrame extends Component {
@@ -58,21 +58,7 @@ class MainFrame extends Component {
     this.ctx.lineTo(offsetX / this._multiplier, offsetY / this._multiplier);
     this.ctx.stroke();
   }
-
-  startCircle({offsetX, offsetY}) {
-    this.ctx.beginPath();
-    this._startX = offsetX / this._multiplier;
-    this._startY = offsetY / this._multiplier
-    this.ctx.moveTo(this._startX, this._startY);
-  }
-
-  endCircle({offsetX, offsetY}) {
-    const x = offsetX / this._multiplier - this._startX;
-    const y = offsetY / this._multiplier - this._startY;
-    this.ctx.arc(x, y, x / 2, 0, 2 * Math.PI);
-    this.ctx.stroke();
-  }
-
+  
   startRect({offsetX, offsetY}) {
     this._startX = offsetX / this._multiplier;
     this._startY = offsetY / this._multiplier;

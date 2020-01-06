@@ -3,11 +3,12 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/styles';
 import ToggleButtonGroup from '@material-ui/lab/ToggleButtonGroup';
 import ToggleButton from '@material-ui/lab/ToggleButton';
+import { BORDER_DEFAULT } from '../../constants/constants';
 
 const useStyles = makeStyles({
   toggleButtonGroup: {
     flexDirection: 'column',
-    border: '1px solid #191919',
+    border:  BORDER_DEFAULT,
   },
   toggleButton: {
     border: 'none',

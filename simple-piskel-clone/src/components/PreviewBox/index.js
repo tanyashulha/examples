@@ -3,16 +3,16 @@ import { makeStyles } from '@material-ui/styles';
 import Fab from '@material-ui/core/Fab';
 import Fullscreen from '@material-ui/icons/Fullscreen';
 import Tooltip from '@material-ui/core/Tooltip';
-import { BACKGROUND } from '../../constants/canvas';
+import { BACKGROUND, BORDER_ACTIVE, PREVIEW_SIZE } from '../../constants/constants';
 
 const useStyles = makeStyles({
   preview: {
     boxSizing: 'border-box',
     backgroundImage: props => props.image ? `url(${props.image}), url(${BACKGROUND})` : `url(${BACKGROUND})`,
     backgroundSize: 'cover',
-    height: 200,
-    width: 200,
-    border: '2px solid #8d8f94',
+    height: PREVIEW_SIZE,
+    width: PREVIEW_SIZE,
+    border: BORDER_ACTIVE,
     display: ' flex',
     justifyContent: 'flex-end',
     alignItems: 'flex-end',

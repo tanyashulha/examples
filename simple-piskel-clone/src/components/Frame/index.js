@@ -4,7 +4,7 @@ import Fab from '@material-ui/core/Fab';
 import DeleteIcon from '@material-ui/icons/Delete';
 import Description from '@material-ui/icons/Description';
 import Tooltip from '@material-ui/core/Tooltip';
-import { BACKGROUND, FRAME_SIZE } from '../../constants/canvas';
+import { BACKGROUND, FRAME_SIZE, BORDER_DEFAULT } from '../../constants/constants';
 
 const useStyles = makeStyles({
   frame: {
@@ -12,8 +12,9 @@ const useStyles = makeStyles({
     backgroundSize: 'cover',
     height: FRAME_SIZE,
     width: FRAME_SIZE,
-    border: '1px solid #8d8f94',
+    border:  BORDER_DEFAULT,
     borderColor: props => props.active ? '#191919' : '#8d8f94',
+    borderWidth: props => props.active ? '2px' : '1px',
     display: ' flex',
     flexDirection: 'column',
     justifyContent: 'space-between',
@@ -21,7 +22,7 @@ const useStyles = makeStyles({
     marginBottom: 10
   },
   frameButton: {
-    border: '1px solid #8d8f94',
+    border:  BORDER_DEFAULT,
     borderColor: props => props.active ? '#191919' : '#8d8f94',
     borderRadius: 0,
     width: 40,
