@@ -5,6 +5,7 @@ import Create from '@material-ui/icons/Create';
 import BorderColor from '@material-ui/icons/BorderColor';
 import Crop169Icon from '@material-ui/icons/Crop169';
 import FormatColorFill from '@material-ui/icons/FormatColorFill';
+import StopIcon from '@material-ui/icons/Stop';
 import { setActiveTool } from '../../actions/tools';
 
 const tools = [
@@ -27,6 +28,21 @@ const tools = [
     title: 'Stroke',
     value: 'stroke',
     icon: <BorderColor />
+  },
+  {
+    title: '2px',
+    value: 'sizeSmall',
+    icon: <StopIcon fontSize="small" />,
+  },
+  {
+    title: '3px',
+    value: 'sizeMedium',
+    icon: <StopIcon fontSize="default" />
+  },
+  {
+    title: '4px',
+    value: 'sizeLarge',
+    icon: <StopIcon fontSize="large" />
   }
 ];
 

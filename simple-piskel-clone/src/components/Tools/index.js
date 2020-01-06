@@ -36,7 +36,7 @@ export default function Tools({activeTool, tools, handleToolChange}) {
     <Grid container direction="column" item xs={2}>
       <Grid item>
         <ToggleButtonGroup value={activeTool} className={classes.toggleButtonGroup} exclusive onChange={(e, value) => handleToolChange(value)}>
-            {tools}
+          {tools}
         </ToggleButtonGroup>
       </Grid>
     </Grid>
