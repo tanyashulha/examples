@@ -30,17 +30,17 @@ const tools = [
     icon: <BorderColor />
   },
   {
-    title: '2px',
+    title: 'Pen 2px',
     value: 'sizeSmall',
     icon: <StopIcon fontSize="small" />,
   },
   {
-    title: '3px',
+    title: 'Pen 3px',
     value: 'sizeMedium',
     icon: <StopIcon fontSize="default" />
   },
   {
-    title: '4px',
+    title: 'Pen 4px',
     value: 'sizeLarge',
     icon: <StopIcon fontSize="large" />
   }

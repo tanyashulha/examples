@@ -12,7 +12,10 @@ class MainFrame extends Component {
       isDown: false
     };
     this._multiplier = CANVAS_SIZE / this.props.size;
-    this._brushSize = this._multiplier * 1;
+    this._brushSizeDefault = this._multiplier * 1;
+    this._brushSizeSmall = this._multiplier * 2;
+    this._brushSizeMedium = this._multiplier * 3;
+    this._brushSizeLarge = this._multiplier * 4;
     this.handleMouseDown = this.handleMouseDown.bind(this);
     this.handleMouseMove = this.handleMouseMove.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -46,7 +49,19 @@ class MainFrame extends Component {
   }
 	
 	drawPixel({offsetX, offsetY}) {
-		this.ctx.fillRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSize, this._brushSize);
+		this.ctx.fillRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSizeDefault, this._brushSizeDefault);
+  }
+
+  drawPixelSmall({offsetX, offsetY}) {
+		this.ctx.fillRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSizeSmall, this._brushSizeSmall);
+  }
+
+  drawPixelMedium({offsetX, offsetY}) {
+		this.ctx.fillRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSizeMedium, this._brushSizeMedium);
+  }
+
+  drawPixelLarge({offsetX, offsetY}) {
+		this.ctx.fillRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSizeLarge, this._brushSizeLarge);
   }
 
   startStroke({offsetX, offsetY}) {
@@ -71,7 +86,7 @@ class MainFrame extends Component {
   }
 
   erasePixel({offsetX, offsetY}) {
-		this.ctx.clearRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSize, this._brushSize);
+		this.ctx.clearRect(offsetX / this._multiplier, offsetY / this._multiplier, this._brushSizeDefault, this._brushSizeDefault);
   }
   
   fillCanvas() {
@@ -92,11 +107,14 @@ class MainFrame extends Component {
       case 'stroke':
         this.startStroke(e);
         break;
-      case 'rectangle':
-        this.startRect(e);
+      case 'sizeSmall':
+        this.drawPixelSmall(e);
         break;
-      case 'circle':
-        this.startCircle(e);
+      case 'sizeMedium':
+        this.drawPixelMedium(e);
+        break;
+      case 'sizeLarge':
+        this.drawPixelLarge(e);
         break;
       default:
         break;
@@ -116,6 +134,15 @@ class MainFrame extends Component {
         case 'rubber':
           this.erasePixel(e);
           break;
+        case 'sizeSmall':
+          this.drawPixelSmall(e);
+          break;
+        case 'sizeMedium':
+          this.drawPixelMedium(e);
+          break;
+        case 'sizeLarge':
+          this.drawPixelLarge(e);
+          break;
         default:
           break;
       }
@@ -130,12 +157,6 @@ class MainFrame extends Component {
     switch (this.props.activeTool) {
       case 'stroke':
         this.endStroke(e);
-        break;
-      case 'rectangle':
-        this.endRect(e);
-        break;
-      case 'circle':
-        this.endCircle(e);
         break;
       default:
         break;
