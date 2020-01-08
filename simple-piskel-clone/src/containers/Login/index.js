@@ -10,7 +10,10 @@ class Login extends Component {
   }
 
   render() {
-    const responseGoogle = () => {
+    const responseGoogle = (res) => {
+      if (res.error) {
+        return;
+      }
       this.setState({ isUserLoggedIn: true });
       localStorage.setItem('isLoggedIn', 'true');
     };
