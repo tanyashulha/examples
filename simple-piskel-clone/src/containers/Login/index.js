@@ -1,6 +1,5 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux';
-import { GoogleLogin, GoogleLogout } from 'react-google-login';
+import { GoogleLogin, GoogleLogout } from "react-google-login";
 
 class Login extends Component {  
   constructor() {
@@ -11,16 +10,16 @@ class Login extends Component {
   }
 
   render() {
-    const responseGoogle = response => {
-      this.setState({ userDetails: response.profileObj, isUserLoggedIn: true });
+    const responseGoogle = () => {
+      this.setState({ isUserLoggedIn: true });
       localStorage.setItem('isLoggedIn', 'true');
     };
     
     const logout = () => {
       this.setState({isUserLoggedIn: false})
-      localStorage.setItem('isLoggedIn', 'false');
-    };
-    
+      localStorage.clear();
+    }; 
+
     return (
       <div className="button-log">
         {!this.state.isUserLoggedIn && (
@@ -37,12 +36,14 @@ class Login extends Component {
             )}
             onSuccess={responseGoogle}
             onFailure={responseGoogle}
+            isSignedIn="true"
           />
         )}
         {this.state.isUserLoggedIn && (
           <div className="userDetails-wrapper">
             <div className="details-wrapper">
               <GoogleLogout
+               clientId="517004612188-dae395vv8jfdgfmalqapon07dgs6e5rl.apps.googleusercontent.com" 
                 render={renderProps => (
                   <button
                     className="logout-button"
