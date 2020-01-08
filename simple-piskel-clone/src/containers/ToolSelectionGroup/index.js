@@ -52,7 +52,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   handleToolChange: tool => {
-      dispatch(setActiveTool(tool));
+    dispatch(setActiveTool(tool));
   }
 });
 

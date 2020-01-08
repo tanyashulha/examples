@@ -1,24 +1,24 @@
 import React, {Component} from 'react';
+import { connect } from 'react-redux';
 import { GoogleLogin, GoogleLogout } from 'react-google-login';
 
-
-
-export default class Login extends Component {  
+class Login extends Component {  
   constructor() {
     super();
     this.state = {
-      userDetails: {},
-      isUserLoggedIn: false
+      isUserLoggedIn: Boolean(localStorage.getItem('isLoggedIn'))
     };
   }
 
   render() {
     const responseGoogle = response => {
       this.setState({ userDetails: response.profileObj, isUserLoggedIn: true });
+      localStorage.setItem('isLoggedIn', 'true');
     };
     
     const logout = () => {
       this.setState({isUserLoggedIn: false})
+      localStorage.setItem('isLoggedIn', 'false');
     };
     
     return (
@@ -53,7 +53,6 @@ export default class Login extends Component {
                 )}
                 onLogoutSuccess={logout}
               />
-              <div className="email"><i>{this.state.userDetails.email}</i></div>
             </div>
           </div>
         )}
@@ -61,3 +60,5 @@ export default class Login extends Component {
     );
   }
 }
+
+export default Login;

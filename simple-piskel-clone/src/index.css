@@ -15,6 +15,7 @@ body {
 
 .button, .logout-button {
   text-decoration: none;
+  cursor: pointer;
   border: none;
   outline: none;
   padding: 6px 20px;
