@@ -5,6 +5,40 @@ body {
 }
 
 #root {
-  padding: 50px 0;
+  padding: 20px 0;
   height: 100%;
+}
+
+.button-log {
+  margin-bottom: 40px;
+}
+
+.button, .logout-button {
+  text-decoration: none;
+  border: none;
+  outline: none;
+  padding: 6px 20px;
+  border-radius: 30px;
+  background-image: linear-gradient(45deg, #c3d6e0 0%, #495555 50%, #000000 100%);
+  background-position: 100% 0;
+  background-size: 200% 200%;
+  font-size: 14px;
+  font-weight: 300;
+  color: white;
+  transition: .5s;
+}
+
+.button:hover,
+.logout-button:hover {
+  background-position: 0 0;
+}
+
+.details-wrapper {
+  display: flex;
+  align-items: center;
+  flex-direction: row-reverse;
+}
+
+.details-wrapper .email {
+  margin-right: 10px;
 }

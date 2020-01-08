@@ -20,8 +20,8 @@ class Frames extends Component {
 
     return (
     <Grid container direction="column" wrap="nowrap" spacing={2} alignItems="center" item xs={2} >
-      <Grid item>
-        {frames}
+      <Grid item >
+       {frames}
       </Grid>
       <Grid item>
         <Fab color="inherit" aria-label="Add" onClick={this.props.addFrame}>
@@ -29,7 +29,7 @@ class Frames extends Component {
         </Fab>
       </Grid>
     </Grid>
-    );
+);
   }
 }
 

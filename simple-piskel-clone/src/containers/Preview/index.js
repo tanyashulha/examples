@@ -18,7 +18,7 @@ class Preview extends Component {
     this.setTimer();
   }
 
-  componentDidUpdate(prevProps, prevState) {
+  componentDidUpdate(prevProps) {
     if (prevProps.fps !== this.props.fps) {
       this.clearTimer();
       this.setTimer();
@@ -54,7 +54,7 @@ class Preview extends Component {
   render() {
     return <PreviewBox image={this.image} fullscreen={this.state.fullscreen} toggleFullscreen={this.toggleFullscreen} />
   }
-};
+}
 
 const mapStateToProps = state => ({
   frames: state.frames,
